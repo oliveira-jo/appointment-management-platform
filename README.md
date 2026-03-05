@@ -24,17 +24,45 @@ Appointment management
 ## The mean of system is:
 * Appointment
 
+
 ## Monorepo
-* Backend - Java | Spring 
-* Frontend - Angular
+> developing
+* Version frontend and backend together
+* Create a single pipeline in CI/CD
+* Create a single Docker Compose file
+* Keep API and UI contracts synchronized
 
 
-## Project Base in MVC
+## Structure
+````
+appointment-management/
+ ├── backend/  (Spring Boot + JWT + Clean Architecture)
+ ├── frontend/ (Angular)
+ ├── docker-compose.yml
+ └── README.md (explicando arquitetura)
+````
+
+
+## BACHEND
 + CONTROLLERS (DTO's)
 + SERVICES (DTO's)
 + REPOSITORIES (Entities)
 + MODELS (Entities)
 + INFRA
+
+
+## FRONTEND:
+> developing
++ Auth com JWT (usando seu backend)
++ HTTP Interceptor para token
++ Auth Guard
++ Role-based UI (ex: ADMIN vs PROFESSIONAL)
++ Loading states
++ Error handling centralizado
++ Toast notifications
++ Reactive Forms
++ Form validation elegante
++ UI moderna (Angular Material ou Tailwind)
 
 
 ## Technologies Used
