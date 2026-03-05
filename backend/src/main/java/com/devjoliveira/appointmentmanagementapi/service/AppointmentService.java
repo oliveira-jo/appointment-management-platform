@@ -106,7 +106,7 @@ public class AppointmentService {
     appointment.setProduct(product);
     appointment.setScheduledAt(scheduledAt);
     appointment.setEndsAt(endsAt);
-    appointment.setStatus(AppointmentStatus.SCHEDULED);
+    appointment.setAppointmentStatus(AppointmentStatus.SCHEDULED);
 
     var fromDB = appointmentRepository.save(appointment);
 

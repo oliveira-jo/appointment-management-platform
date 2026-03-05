@@ -22,7 +22,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_users")
+@Table(name = "tb_user")
 public class User implements UserDetails {
 
   @Id
@@ -38,7 +38,7 @@ public class User implements UserDetails {
   @Column(nullable = false)
   private String password;
 
-  @Column(name = "role", nullable = false)
+  @Column(name = "user_role", nullable = false)
   @Enumerated(EnumType.STRING)
   private UserRole role;
 

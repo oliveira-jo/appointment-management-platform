@@ -16,7 +16,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
   @Query("""
           SELECT appointment FROM Appointment appointment
           WHERE appointment.professional.id = :professionalId
-          AND appointment.status <> 'CANCELLED'
+          AND appointment.appointmentStatus <> 'CANCELLED'
           AND appointment.scheduledAt < :end
           AND appointment.endsAt > :start
       """)

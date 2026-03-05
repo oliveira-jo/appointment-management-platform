@@ -36,7 +36,7 @@ public class Appointment {
   private LocalDateTime scheduledAt;
 
   @Enumerated(EnumType.STRING)
-  private AppointmentStatus status;
+  private AppointmentStatus appointmentStatus;
 
   private LocalDateTime endsAt;
 
@@ -59,7 +59,7 @@ public class Appointment {
     this.product = product;
     this.scheduledAt = scheduledAt;
     this.endsAt = endsAt;
-    this.status = status;
+    this.appointmentStatus = status;
     this.notes = notes;
   }
 
@@ -103,12 +103,12 @@ public class Appointment {
     this.scheduledAt = scheduledAt;
   }
 
-  public AppointmentStatus getStatus() {
-    return status;
+  public AppointmentStatus getAppointmentStatus() {
+    return appointmentStatus;
   }
 
-  public void setStatus(AppointmentStatus status) {
-    this.status = status;
+  public void setAppointmentStatus(AppointmentStatus status) {
+    this.appointmentStatus = status;
   }
 
   public String getNotes() {

@@ -20,7 +20,7 @@ public record AppointmentMinDTO(
                 this(entity.getId(), entity.getCustomer().getEmail(),
                                 entity.getProfessional().getEmail(),
                                 entity.getProduct().getName(), entity.getScheduledAt(),
-                                entity.getStatus().toString());
+                                entity.getAppointmentStatus().toString());
         }
 
 }

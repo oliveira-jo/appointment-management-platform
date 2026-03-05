@@ -17,7 +17,7 @@ public record AppointmentDTO(
                 this(entity.getId(), entity.getCustomer().getName(),
                                 entity.getProfessional().getName(),
                                 entity.getProduct().getName(), entity.getScheduledAt(),
-                                entity.getStatus().toString());
+                                entity.getAppointmentStatus().toString());
         }
 
 }
