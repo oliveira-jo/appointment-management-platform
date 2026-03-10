@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <h3>Appointments</h3>
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Professional</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (a of appointments; track a) {
+      <tr>
+        <td>{{ a.customerName }}</td>
+        <td>{{ a.professionalName }}</td>
+        <td>{{ a.date }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
