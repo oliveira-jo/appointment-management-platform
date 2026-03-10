@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { ProductRequest, ProductResponse } from '../../product-modal';
 import { ProductService } from '../../product.service';
+import { DurationPipe } from '../../../../../core/pipes/duration.pipe';
+import localePt from '@angular/common/locales/pt';
 
 declare var bootstrap: any;
+registerLocaleData(localePt);
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DurationPipe],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })

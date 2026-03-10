@@ -1,5 +1,5 @@
-<!-- Main Professionals Painel -->
-<h2 class="mb-4">Professionals</h2>
+<!-- Main Product Painel -->
+<h2 class="mb-4">Product</h2>
 
 <div class="d-flex justify-content-between mb-3">
   <div class="d-flex gap-2">
@@ -8,7 +8,7 @@
   </div>
 
   <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#productModal">
-    New Professional
+    New Product
   </button>
 </div>
 
@@ -16,8 +16,8 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
+      <th>Time</th>
+      <th>Price</th>
       <th width="150"></th>
     </tr>
   </thead>
@@ -26,8 +26,8 @@
     @for (obj of products; track obj.id) {
     <tr>
       <td>{{ obj.name }}</td>
-      <td>{{ obj.durationInSeconds }}</td>
-      <td>{{ obj.price }}</td>
+      <td>{{ obj.durationInSeconds | duration}}s</td>
+      <td>{{ obj.price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
       <td>
         <button class="btn btn-sm btn-warning me-2" (click)="change(obj.id!)"> Edit </button>
         <button class="btn btn-sm btn-danger" (click)="openDeleteModal(obj.id!)"> Delete </button>
