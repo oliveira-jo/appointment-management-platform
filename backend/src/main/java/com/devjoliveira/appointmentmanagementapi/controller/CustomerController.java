@@ -35,7 +35,7 @@ public class CustomerController {
 
   @GetMapping
   public ResponseEntity<List<UserMinDTO>> findAll() {
-    return ResponseEntity.ok().body(customerService.findAll());
+    return ResponseEntity.ok().body(customerService.findAllCustomers());
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")

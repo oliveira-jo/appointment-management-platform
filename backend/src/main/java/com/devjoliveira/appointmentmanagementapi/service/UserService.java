@@ -33,12 +33,12 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public List<UserMinDTO> findAllProfessionals() {
-    return userRepository.findAllProfessionals().get().stream().map(UserMinDTO::new).toList();
+    return userRepository.findByRole(UserRole.ROLE_PROFESSIONAL).get().stream().map(UserMinDTO::new).toList();
   }
 
   @Transactional(readOnly = true)
   public List<UserMinDTO> findAllCustomers() {
-    return userRepository.findAllProfessionals().get().stream().map(UserMinDTO::new).toList();
+    return userRepository.findByRole(UserRole.ROLE_CUSTOMER).get().stream().map(UserMinDTO::new).toList();
   }
 
   @Transactional(readOnly = true)
