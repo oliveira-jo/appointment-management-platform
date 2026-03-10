@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/auth/auth.service';
+
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   standalone: true,
@@ -11,17 +12,26 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  email = '';
-  password = '';
+  email = "";
+  password = "";
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
-  onSubmit() {
-    this.auth.login({
+  login() {
+    this.authService.login({
       email: this.email,
       password: this.password
-    }).subscribe(() => {
+    }).subscribe(response => {
+
+      this.authService.saveToken(response.accessToken);
+
       this.router.navigate(['/appointments']);
+
     });
   }
+
 }
+

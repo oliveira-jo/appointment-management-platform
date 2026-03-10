@@ -64,6 +64,18 @@ appointment-management/
 + Form validation elegante
 + UI moderna (Angular Material ou Tailwind)
 
+## Fronten Arquiteture
+````
+src/app/
+ ├── core/        (auth, interceptors, guards)
+ ├── shared/      (components reutilizáveis)
+ ├── features/
+ │    ├── appointments/
+ │    ├── customers/
+ │    ├── professionals/
+ │    └── products/
+ └── layout/
+````
 
 ## Technologies Used
 * Java
