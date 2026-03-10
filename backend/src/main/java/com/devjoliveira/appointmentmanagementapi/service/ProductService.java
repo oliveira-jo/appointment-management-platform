@@ -1,8 +1,8 @@
 package com.devjoliveira.appointmentmanagementapi.service;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
-import java.time.Duration;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -28,6 +28,12 @@ public class ProductService {
   @Transactional(readOnly = true)
   public List<ProductDTO> findAll() {
     return productRepository.findAll().stream().map(ProductDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public ProductDTO findById(UUID id) {
+    return productRepository.findById(id).map(ProductDTO::new).orElseThrow(
+        () -> new ResourceNotFoundException("Product not found with id: " + id));
   }
 
   @Transactional

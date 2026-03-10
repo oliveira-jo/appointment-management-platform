@@ -27,28 +27,34 @@ import jakarta.validation.Valid;
 @RequestMapping("/customers")
 public class CustomerController {
 
-  private final UserService customerService;
+  private final UserService userService;
 
-  public CustomerController(UserService customerService) {
-    this.customerService = customerService;
+  public CustomerController(UserService userService) {
+    this.userService = userService;
   }
 
   @GetMapping
   public ResponseEntity<List<UserMinDTO>> findAll() {
-    return ResponseEntity.ok().body(customerService.findAllCustomers());
+    return ResponseEntity.ok().body(userService.findAllCustomers());
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
-  @GetMapping("/{email}")
+  @GetMapping("/email/{email}")
   public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
-    return ResponseEntity.ok().body(customerService.findByEmail(email));
+    return ResponseEntity.ok().body(userService.findByEmail(email));
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
+  @GetMapping("/{id}")
+  public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
+    return ResponseEntity.ok().body(userService.findById(id));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
   public ResponseEntity<UserDTO> save(@RequestBody @Valid UserMinDTO request) {
 
-    UserDTO customerDTO = customerService.save(request, UserRole.ROLE_CUSTOMER);
+    UserDTO customerDTO = userService.save(request, UserRole.ROLE_CUSTOMER);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(customerDTO.id()).toUri();
@@ -60,13 +66,13 @@ public class CustomerController {
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PutMapping("/{id}")
   public ResponseEntity<UserDTO> change(@PathVariable UUID id, @RequestBody @Valid UserMinDTO request) {
-    return ResponseEntity.ok().body(customerService.change(id, request));
+    return ResponseEntity.ok().body(userService.change(id, request));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
-    customerService.delete(id);
+    userService.delete(id);
     return ResponseEntity.noContent().build();
   }
 
