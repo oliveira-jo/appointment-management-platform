@@ -36,6 +36,17 @@ public class ProductService {
         () -> new ResourceNotFoundException("Product not found with id: " + id));
   }
 
+  @Transactional(readOnly = true)
+  public List<ProductDTO> findByName(String name) {
+    var products = productRepository.findByNameContainingIgnoreCase(name);
+
+    if (products == null || products.isEmpty()) {
+      throw new ResourceNotFoundException("Product not found with name: " + name);
+    }
+
+    return products.stream().map(ProductDTO::new).toList();
+  }
+
   @Transactional
   public ProductDTO save(ProductMinDTO request) {
 

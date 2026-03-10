@@ -43,6 +43,12 @@ public class ProductController {
     return ResponseEntity.ok().body(productService.findById(id));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
+  @GetMapping("/name/{name}")
+  public ResponseEntity<List<ProductDTO>> findByName(@PathVariable String name) {
+    return ResponseEntity.ok().body(productService.findByName(name));
+  }
+
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
   public ResponseEntity<ProductDTO> save(@RequestBody @Valid ProductMinDTO request) {
