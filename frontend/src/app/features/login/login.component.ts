@@ -28,7 +28,7 @@ export class LoginComponent {
 
       this.authService.saveToken(response.accessToken);
 
-      this.router.navigate(['/appointments']);
+      this.router.navigate(['/dashboard']);
 
     });
   }
