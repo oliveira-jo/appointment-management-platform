@@ -39,9 +39,15 @@ public class ProfessionalController {
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
-  @GetMapping("/{email}")
+  @GetMapping("/email/{email}")
   public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
     return ResponseEntity.ok().body(userService.findByEmail(email));
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
+  @GetMapping("/{id}")
+  public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
+    return ResponseEntity.ok().body(userService.findById(id));
   }
 
   @PreAuthorize("hasRole('ADMIN')")

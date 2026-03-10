@@ -38,6 +38,12 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
+  public UserDTO findById(UUID id) {
+    return userRepository.findById(id).map(UserDTO::new).orElseThrow(
+        () -> new ResourceNotFoundException("User not found with id: " + id));
+  }
+
+  @Transactional(readOnly = true)
   public User findByName(String name) {
     User user = userRepository.findByName(name);
     if (user == null) {

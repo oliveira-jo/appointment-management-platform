@@ -4,6 +4,7 @@ import { LoginComponent } from './features/login/login.component';
 import { authGuard } from './core/auth/auth.guard';
 import { DashboardComponent } from './features/admin/dashboard/dashboard.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { ProfessionalListComponent } from './features/admin/professionals/pages/professional-list/professional-list.component';
 
 export const routes: Routes = [
 
@@ -18,6 +19,8 @@ export const routes: Routes = [
     children: [
 
       { path: 'dashboard', component: DashboardComponent },
+
+      { path: 'professionals', component: ProfessionalListComponent }
 
       // futuras rotas
       // { path: 'customers', component: CustomerListComponent },
