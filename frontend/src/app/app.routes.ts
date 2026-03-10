@@ -20,6 +20,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'appointments', component: AppointmentListComponent },
       { path: 'professionals', component: ProfessionalListComponent },
       { path: 'customers', component: CustomerListComponent },
       { path: 'products', component: ProductListComponent },
