@@ -7,6 +7,8 @@
 ![Vscode](https://img.shields.io/badge/Vscode-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white) 
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
 
 ## Objective
@@ -32,8 +34,6 @@ Appointment management
 * Create a single Docker Compose file
 * Keep API and UI contracts synchronized
 
-
-## Structure
 ````
 appointment-management/
  ├── backend/  (Spring Boot + JWT + Clean Architecture)
@@ -64,7 +64,7 @@ appointment-management/
 + Form validation elegante
 + UI moderna (Angular Material ou Tailwind)
 
-## Fronten Arquiteture
+
 ````
 src/app/
  ├── core/        (auth, interceptors, guards)
@@ -77,7 +77,7 @@ src/app/
  └── layout/
 ````
 
-## Technologies Used
+## BACKEND
 * Java
 * Spring Boot Starter Web: Servidor Tomcat
 * Spring Boot Devtools: Hot Heload 
@@ -136,9 +136,4 @@ spring.jpa.properties.hibernate.format_sql=true
   novoFim > existenteInicio
   ````
  4. Save
-
- ## Features to be implanted 
- - spring security and jwt token
-
-
  
