@@ -1,5 +1,9 @@
-@if (this.isLogged()) {
-<app-navbar />
-}
+<app-main-layout>
 
-<router-outlet />
+  @if (this.isLogged()) {
+  <app-navbar />
+  }
+
+  <router-outlet />
+
+</app-main-layout>

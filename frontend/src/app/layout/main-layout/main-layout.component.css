@@ -1,0 +1,18 @@
+.rounded-wrapper {
+
+  min-height: calc(100vh - 40px);
+
+  margin: 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #ffffff;
+
+}
+
+.rounded-wrapper {
+  margin: 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
