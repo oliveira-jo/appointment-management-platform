@@ -1,0 +1,4 @@
+input[type="time"].form-control {
+  cursor: text;
+  caret-color: #000000;
+}

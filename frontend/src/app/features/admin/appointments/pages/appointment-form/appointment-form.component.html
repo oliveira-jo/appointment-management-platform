@@ -1,0 +1,59 @@
+<div class="card shadow-sm">
+
+  <div class="card-body">
+
+    <h4 class="mb-4">New Appointment</h4>
+
+    <!-- CUSTOMER -->
+
+    <div class="mb-3">
+      <label>Customer</label>
+      <select class="form-select" [(ngModel)]="appointment.customerEmail">
+        @for (obj of customers; track obj.id) {
+        <option [value]="obj.email">
+          {{ obj.email }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- PROFESSIONAL -->
+    <div class="mb-3">
+      <label>Professional</label>
+      <select class="form-select" [(ngModel)]="appointment.professionalEmail">
+        @for (obj of professionals; track obj.id) {
+        <option [value]="obj.email">
+          {{ obj.email }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- SERVICE -->
+    <div class="mb-3">
+      <label>Service</label>
+      <select class="form-select" [(ngModel)]="appointment.productName">
+        @for (obj of products; track obj.id) {
+        <option [value]="obj.name">
+          {{ obj.name }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- DATE -->
+    <div class="mb-3">
+      <div class="col">
+        <label>Date</label>
+        <input type="date" class="form-control" [(ngModel)]="date">
+      </div>
+      <div class="col">
+        <label>Hour</label>
+        <input type="time" class="form-control" [(ngModel)]="time">
+      </div>
+    </div>
+    <button class="btn btn-success" (click)="save()"> Create Appointment </button>
+
+  </div>
+
+</div>
