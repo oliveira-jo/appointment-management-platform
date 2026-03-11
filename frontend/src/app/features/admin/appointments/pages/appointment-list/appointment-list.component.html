@@ -1,12 +1,85 @@
 <div class="container mt-4">
   <h3>Appointments</h3>
 
+  <!-- New -->
+  <button class="btn btn-primary" routerLink="/appointments/new">
+    + New Appointment
+  </button>
+
+  <!-- Metrics -->
+  <div class="row mb-4">
+
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h6 class="text-muted">Appointments Today</h6>
+          <h3>{{metrics.today}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h6 class="text-muted">Appointments This Week</h6>
+          <h3>{{metrics.week}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h6 class="text-muted">Revenue Today</h6>
+          <h3>{{metrics.revenueToday | currency:'BRL'}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h6 class="text-muted">Total Appointments</h6>
+          <h3>{{metrics.total}}</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Data Filter -->
+  <div class="card mb-3 shadow-sm border-0">
+    <div class="card-body">
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <label>Search Appointment by Day</label>
+          <input type="date" class="form-control" [(ngModel)]="filter.startDate">
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+          <button class="btn btn-primary me-2" (click)="search()">
+            Filter
+          </button>
+
+          <button class="btn btn-secondary" (click)="clearFilter()">
+            Clear
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- List Appointment -->
   <table class="table table-striped mt-3">
     <thead>
       <tr>
         <th>Customer</th>
         <th>Professional</th>
-        <th>Product</th>
+        <th>Service</th>
         <th>Date</th>
         <th>Status</th>
       </tr>
@@ -17,7 +90,7 @@
         <td>{{ a.customerName }}</td>
         <td>{{ a.professionalName }}</td>
         <td>{{ a.productName }}</td>
-        <td>{{ a.scheduledAt }}</td>
+        <td>{{ a.scheduledAt | date:'dd/MM/yyyy HH:mm'}}</td>
         <td>{{ a.status }}</td>
       </tr>
       } @empty {
@@ -27,6 +100,8 @@
       }
     </tbody>
   </table>
+
+  <!-- Pagination -->
   <div class="d-flex justify-content-between mt-3">
     <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
       Previous

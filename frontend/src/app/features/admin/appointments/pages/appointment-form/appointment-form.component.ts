@@ -66,7 +66,11 @@ export class AppointmentFormComponent implements OnInit {
 
   save() {
 
-    const dateTime = this.date + " " + this.time;
+    // Formatin date for api rules
+    const [year, month, day] = this.date.split('-');
+    const formattedDate = `${day}/${month}/${year}`;
+
+    const dateTime = formattedDate + " " + this.time + "";
 
     this.appointment = {
       customerEmail: this.appointment.customerEmail,
@@ -75,6 +79,7 @@ export class AppointmentFormComponent implements OnInit {
       scheduledAt: dateTime
     };
 
+    // console.log(this.appointment)
     this.appointmentService.create(this.appointment)
       .subscribe(() => {
         this.router.navigate(['/appointments']);
