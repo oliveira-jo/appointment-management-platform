@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerRequest, CustomerResponse } from '../../customer-modal';
 import { CustomerService } from '../../customer.service';
