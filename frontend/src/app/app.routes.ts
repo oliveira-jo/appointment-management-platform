@@ -26,7 +26,7 @@ export const routes: Routes = [
       { path: 'customers', component: CustomerListComponent },
       { path: 'products', component: ProductListComponent },
       { path: 'appointments', component: AppointmentListComponent },
-      { path: 'appointments/new', component: AppointmentFormComponent }
+      { path: 'appointments/new', component: AppointmentFormComponent },
     ]
   },
 
