@@ -49,6 +49,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET, "/products").permitAll()
             .requestMatchers(HttpMethod.GET, "/customers").permitAll()
             .requestMatchers(HttpMethod.GET, "/appointments").permitAll()
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf.disable())
