@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.AppointmentMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
 import com.devjoliveira.appointmentmanagementapi.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -58,6 +59,12 @@ public class AppointmentController {
   @GetMapping
   public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
     return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
+  @GetMapping("/metrics")
+  public ResponseEntity<MetricsDTO> GetMetrics() {
+    return ResponseEntity.ok().body(appointmentService.getMetrics());
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")

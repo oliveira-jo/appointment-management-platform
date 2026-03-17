@@ -1,8 +1,11 @@
 package com.devjoliveira.appointmentmanagementapi.service;
 
+import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +19,7 @@ import com.devjoliveira.appointmentmanagementapi.domain.Appointment;
 import com.devjoliveira.appointmentmanagementapi.domain.Product;
 import com.devjoliveira.appointmentmanagementapi.domain.User;
 import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.AppointmentStatus;
 import com.devjoliveira.appointmentmanagementapi.repository.AppointmentRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.ProductRepository;
@@ -75,6 +79,34 @@ public class AppointmentService {
     return appointments.map(AppointmentDTO::new);
   }
 
+  @Transactional(readOnly = true)
+  public MetricsDTO getMetrics() {
+
+    LocalDate today = LocalDate.now();
+    LocalDate firstDayOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate lastDayOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+    // convert LocalDate -> LocalDateTime
+    LocalDateTime start = firstDayOfWeek.atStartOfDay();
+    LocalDateTime end = lastDayOfWeek.atTime(23, 59, 59);
+
+    // Total Revenue Today
+    List<Appointment> todayRevenueAppointments = appointmentRepository
+        .findByScheduledAtBetween(LocalDate.now().atTime(00, 00, 00),
+            LocalDate.now().atTime(23, 59, 59));
+
+    BigDecimal todayRevenue = BigDecimal.ZERO;
+    for (Appointment a : todayRevenueAppointments) {
+      todayRevenue = todayRevenue.add(a.getProduct().getPrice());
+    }
+
+    // Other metrics
+    Integer todayAppointments = this.findAppointmentsByDay(LocalDate.now()).size();
+    Integer weekAppointments = appointmentRepository.findByScheduledAtBetween(start, end).size();
+    Integer totalAppointments = this.appointmentRepository.findAll().size();
+
+    return new MetricsDTO(todayAppointments, weekAppointments, todayRevenue, totalAppointments);
+  }
+
   @Transactional
   public AppointmentDTO createAppointment(String customerEmail, String professionalEmail, String productName,
       LocalDateTime scheduledAt) {
@@ -89,8 +121,8 @@ public class AppointmentService {
     // calculate the end time of the appointment based on the product duration
     LocalDateTime endsAt = scheduledAt.plusSeconds(product.getDurationInSeconds().toSeconds());
 
-    // verify if the professional is available at the requested time / if there are
-    // any conflicting appointments
+    // verify if the professional is available at the requested time -
+    // if there are any conflicting appointments
     List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professional.getId(), scheduledAt,
         endsAt);
 
