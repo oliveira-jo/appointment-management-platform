@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../appointment.service';
-import { AppointmentRequest, AppointmentResponse, MetricsResponse, Page } from '../../appointment-model';
+import { AppointmentRequest, AppointmentResponse, Metrics, Page } from '../../appointment-model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -18,6 +18,8 @@ export class AppointmentListComponent implements OnInit {
   appointments: AppointmentResponse[] = [];
   appointment: AppointmentRequest = { customerEmail: '', professionalEmail: '', productName: '', scheduledAt: '' }
 
+  metrics: Metrics = { todayAppointments: 0, weekAppointments: 0, todayRevenue: 0, totalAppointments: 0 }
+
   page?: Page<AppointmentResponse>;
 
   currentPage = 0
@@ -34,14 +36,6 @@ export class AppointmentListComponent implements OnInit {
   totalPages = 0;
   pages: number[] = [];
 
-  // metrics cards
-  metrics = {
-    today: 0,
-    week: 0,
-    revenueToday: 0,
-    total: 0
-  };
-
   // filter
   filter = {
     startDate: '',
@@ -53,6 +47,7 @@ export class AppointmentListComponent implements OnInit {
 
   ngOnInit() {
     this.loadAppointments()
+    this.loadMetrics();
   }
 
   loadAppointments() {
@@ -61,6 +56,14 @@ export class AppointmentListComponent implements OnInit {
       .subscribe(response => {
         this.page = response
         this.appointments = response.content
+      })
+  }
+
+  loadMetrics() {
+    this.appointmentService
+      .getMetrics()
+      .subscribe(metrics => {
+        this.metrics = metrics;
       })
   }
 
@@ -117,13 +120,6 @@ export class AppointmentListComponent implements OnInit {
     this.filter.endDate = '';
 
     this.loadAppointments();
-  }
-
-  loadMetrics() {
-
-    const metrics: MetricsResponse = { today: 1, week: 1, revenueToday: 0, total: 2 };
-    this.metrics = metrics;
-
   }
 
 }
