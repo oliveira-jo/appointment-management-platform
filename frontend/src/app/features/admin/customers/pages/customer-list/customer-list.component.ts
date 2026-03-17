@@ -18,7 +18,7 @@ export class CustomerListComponent implements OnInit {
   customer: CustomerRequest = { name: '', email: '', phone: '' };
 
   searchEmail = '';
-  // toastMessage = '';
+
   successMessage = '';
   errorMessage = '';
   successToast: any;
@@ -166,18 +166,20 @@ export class CustomerListComponent implements OnInit {
     const successEl = document.getElementById('successToast');
     const errorEl = document.getElementById('errorToast');
 
-    this.successToast = new (window as any).bootstrap.Toast(successEl, {
-      delay: 6000
-    });
+    if (successEl) {
+      this.successToast = new bootstrap.Toast(successEl, { delay: 6000 });
+    }
 
-    this.errorToast = new (window as any).bootstrap.Toast(errorEl, {
-      delay: 4000
-    });
+    if (errorEl) {
+      this.errorToast = new bootstrap.Toast(errorEl, { delay: 4000 });
+    }
   }
 
   showSuccess(message: string) {
     this.successMessage = message;
-    this.successToast.show();
+    if (this.successToast) {
+      this.successToast.show();
+    }
   }
 
   showError(message: string) {

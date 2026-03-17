@@ -18,7 +18,11 @@ export class ProfessionalListComponent implements OnInit {
   professional: ProfessioanlRequest = { name: '', email: '', phone: '' };
 
   searchEmail = '';
-  toastMessage = '';
+  successMessage = '';
+  errorMessage = '';
+  successToast: any;
+  errorToast: any;
+
 
   selectedProfessionalId: string | null = null;
   editingId: string | null = null;
@@ -56,24 +60,29 @@ export class ProfessionalListComponent implements OnInit {
   save(form: any) {
     if (this.editingId) {
       this.professionalService.update(this.editingId, this.professional)
-        .subscribe(() => {
-
-          this.toastMessage = "Professional updated successfully";
-
-          this.afterSave(form);
-
+        .subscribe({
+          next: () => {
+            this.showSuccess("Sucesso na edição do profissional");
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao editar o profissional. Tente novamente.');
+          }
         });
 
     } else {
       this.professionalService.create(this.professional)
-        .subscribe(() => {
-
-          this.toastMessage = "Professional created successfully";
-
-          this.afterSave(form);
-
+        .subscribe({
+          next: () => {
+            this.showSuccess("Profissional criado com sucesso");
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao salvar o profissional. Tente novamente.');
+          }
         });
     }
+
   }
 
   afterSave(form: any) {
@@ -91,7 +100,6 @@ export class ProfessionalListComponent implements OnInit {
 
     modal.hide();
 
-    this.showToast();
   }
 
   change(id: string) {
@@ -113,13 +121,6 @@ export class ProfessionalListComponent implements OnInit {
         modal.show();
 
       });
-  }
-
-  showToast() {
-    const toastEl = document.getElementById('successToast');
-    const toast = new bootstrap.Toast(toastEl);
-
-    toast.show();
   }
 
   formatPhone() {
@@ -159,6 +160,29 @@ export class ProfessionalListComponent implements OnInit {
     );
 
     modal.show();
+  }
+
+  ngAfterViewInit() {
+    const successEl = document.getElementById('successToast');
+    const errorEl = document.getElementById('errorToast');
+
+    this.successToast = new (window as any).bootstrap.Toast(successEl, {
+      delay: 6000
+    });
+
+    this.errorToast = new (window as any).bootstrap.Toast(errorEl, {
+      delay: 4000
+    });
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    this.successToast.show();
+  }
+
+  showError(message: string) {
+    this.errorMessage = message;
+    this.errorToast.show();
   }
 
 }
