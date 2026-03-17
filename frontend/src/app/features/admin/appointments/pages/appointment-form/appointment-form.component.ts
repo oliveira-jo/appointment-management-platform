@@ -104,7 +104,7 @@ export class AppointmentFormComponent implements OnInit {
 
         },
         error: (err) => {
-          this.showError('Erro ao agendar. Tente novamente.');
+          this.showError('Erro ao agendar. Tente novamente.' + err.error.message);
         }
       });
 
