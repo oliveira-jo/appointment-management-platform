@@ -160,19 +160,10 @@ public class AppointmentService {
     appointmentRepository.markAsCompleted(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
   }
 
-  // @Transactional
-  // public void delete(UUID id) {
-
-  // var fromDB = appointmentRepository.findById(id).orElseThrow(
-  // () -> new ResourceNotFoundException("Appointment with id " + id + " not
-  // found"));
-
-  // try {
-  // appointmentRepository.delete(fromDB);
-  // } catch (DataIntegrityViolationException e) {
-  // throw new DatabaseException("Fail in reference integrity");
-  // }
-
-  // }
+  @Transactional
+  public void deleteOldAppointments() {
+    LocalDateTime limit = LocalDateTime.now().minusMonths(6);
+    appointmentRepository.deleteOlderThan(limit);
+  }
 
 }

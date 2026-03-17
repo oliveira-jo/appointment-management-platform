@@ -38,4 +38,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
       """)
   void markAsCompleted(@Param("now") LocalDateTime now);
 
+  @Modifying
+  @Query("""
+          DELETE FROM Appointment a
+          WHERE a.scheduledAt < :limitDate
+      """)
+  void deleteOlderThan(@Param("limitDate") LocalDateTime limitDate);
+
 }
