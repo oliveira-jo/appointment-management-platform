@@ -35,8 +35,20 @@
     </tr>
     }
   </tbody>
-
 </table>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center align-items-center gap-3 mt-5">
+  <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
+    Anterior
+  </button>
+  <span class="fw-bold">
+    Página {{ currentPage + 1 }} / {{ page?.totalPages }}
+  </span>
+  <button class="btn btn-primary" (click)="nextPage()" [disabled]="page?.last===true">
+    Próximo
+  </button>
+</div>
 
 <!-- Modal - Product -->
 <div class="modal fade" id="productModal" tabindex="-1">

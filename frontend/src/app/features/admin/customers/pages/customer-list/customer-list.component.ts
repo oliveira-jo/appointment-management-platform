@@ -19,12 +19,10 @@ export class CustomerListComponent implements OnInit {
   customer: CustomerRequest = { name: '', email: '', phone: '' };
 
   page?: Page<CustomerResponse>;
-
   currentPage = 0
   pageSize = 10
 
   searchEmail = '';
-
   successMessage = '';
   errorMessage = '';
   successToast: any;
@@ -40,7 +38,6 @@ export class CustomerListComponent implements OnInit {
   }
 
   loadCustomers() {
-
     this.customerService.getAll(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
         this.page = data
@@ -49,7 +46,6 @@ export class CustomerListComponent implements OnInit {
         const list = this.customers;
         this.customers = list.filter(p => p.role !== 'ROLE_ADMIN');
       });
-
   }
 
   search() {

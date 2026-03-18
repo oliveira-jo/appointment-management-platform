@@ -5,6 +5,7 @@ import { ProductRequest, ProductResponse } from '../../product-modal';
 import { ProductService } from '../../product.service';
 import { DurationPipe } from '../../../../../core/pipes/duration.pipe';
 import localePt from '@angular/common/locales/pt';
+import { Page } from '../../../appointments/appointment-model';
 
 declare var bootstrap: any;
 registerLocaleData(localePt);
@@ -20,6 +21,10 @@ export class ProductListComponent implements OnInit {
 
   products: ProductResponse[] = [];
   product: ProductRequest = { name: '', durationInSeconds: 0, price: 0 };
+
+  page?: Page<ProductResponse>;
+  currentPage = 0
+  pageSize = 10
 
   searchName = '';
   successMessage = '';
@@ -37,9 +42,10 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getAll()
+    this.productService.getAll(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
-        const list = this.products = data as ProductResponse[];
+        this.page = data
+        this.products = data.content
       });
   }
 
@@ -181,6 +187,20 @@ export class ProductListComponent implements OnInit {
   showError(message: string) {
     this.errorMessage = message;
     this.errorToast.show();
+  }
+
+  nextPage() {
+    if (!this.page?.last) {
+      this.currentPage++
+      this.loadProducts()
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--
+      this.loadProducts()
+    }
   }
 
 }
