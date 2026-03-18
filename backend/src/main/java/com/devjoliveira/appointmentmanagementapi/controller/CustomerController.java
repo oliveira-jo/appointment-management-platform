@@ -1,9 +1,10 @@
 package com.devjoliveira.appointmentmanagementapi.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,8 +35,8 @@ public class CustomerController {
   }
 
   @GetMapping
-  public ResponseEntity<List<UserMinDTO>> findAll() {
-    return ResponseEntity.ok().body(userService.findAllCustomers());
+  public ResponseEntity<Page<UserMinDTO>> findAll(Pageable pageable) {
+    return ResponseEntity.ok().body(userService.findAllPaged(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")

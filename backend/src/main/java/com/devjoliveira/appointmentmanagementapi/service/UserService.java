@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,12 @@ public class UserService {
   @Transactional(readOnly = true)
   public List<UserMinDTO> findAll() {
     return userRepository.findAll().stream().map(UserMinDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public Page<UserMinDTO> findAllPaged(Pageable pageable) {
+    Page<User> appointments = userRepository.findAll(pageable);
+    return appointments.map(UserMinDTO::new);
   }
 
   @Transactional(readOnly = true)
