@@ -13,7 +13,11 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(page?: number, size?: number): Observable<Page<AppointmentResponse>> {
+  getAll(): Observable<AppointmentResponse[]> {
+    return this.http.get<AppointmentResponse[]>(`${this.baseUrl}/all`);
+  }
+
+  getAllPaged(page?: number, size?: number): Observable<Page<AppointmentResponse>> {
     return this.http.get<Page<AppointmentResponse>>(
       `${this.baseUrl}?page=${page}&size=${size}`
     )

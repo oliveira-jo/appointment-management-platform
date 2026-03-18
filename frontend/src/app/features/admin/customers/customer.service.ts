@@ -15,7 +15,11 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(page?: number, size?: number): Observable<Page<CustomerResponse>> {
+  getAll(): Observable<CustomerResponse[]> {
+    return this.http.get<CustomerResponse[]>(`${this.baseUrl}/all`);
+  }
+
+  getAllPaged(page?: number, size?: number): Observable<Page<CustomerResponse>> {
     return this.http.get<Page<CustomerResponse>>(
       `${this.baseUrl}?page=${page}&size=${size}`
     )

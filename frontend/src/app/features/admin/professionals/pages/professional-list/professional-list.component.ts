@@ -38,7 +38,7 @@ export class ProfessionalListComponent implements OnInit {
   }
 
   loadProfessionals() {
-    this.professionalService.getAll(this.currentPage, this.pageSize)
+    this.professionalService.getAllPaged(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
         this.page = data
         this.professionals = data.content

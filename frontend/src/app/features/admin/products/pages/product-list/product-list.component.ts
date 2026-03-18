@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getAll(this.currentPage, this.pageSize)
+    this.productService.getAllPaged(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
         this.page = data
         this.products = data.content

@@ -38,7 +38,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   loadCustomers() {
-    this.customerService.getAll(this.currentPage, this.pageSize)
+    this.customerService.getAllPaged(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
         this.page = data
         this.customers = data.content

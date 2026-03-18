@@ -52,7 +52,7 @@ export class AppointmentListComponent implements OnInit {
 
   loadAppointments() {
     this.appointmentService
-      .getAll(this.currentPage, this.pageSize)
+      .getAllPaged(this.currentPage, this.pageSize)
       .subscribe(response => {
         this.page = response
         this.appointments = response.content

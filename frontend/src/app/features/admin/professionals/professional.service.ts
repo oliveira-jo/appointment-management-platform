@@ -14,7 +14,11 @@ export class ProfessionalService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(page?: number, size?: number): Observable<Page<ProfessioanlResponse>> {
+  getAll(): Observable<ProfessioanlResponse[]> {
+    return this.http.get<ProfessioanlResponse[]>(`${this.baseUrl}/all`);
+  }
+
+  getAllPaged(page?: number, size?: number): Observable<Page<ProfessioanlResponse>> {
     return this.http.get<Page<ProfessioanlResponse>>(
       `${this.baseUrl}?page=${page}&size=${size}`
     )
