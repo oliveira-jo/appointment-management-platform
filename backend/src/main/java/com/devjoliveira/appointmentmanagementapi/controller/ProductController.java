@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,8 +35,8 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ProductDTO>> findAll() {
-    return ResponseEntity.ok().body(productService.findAll());
+  public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+    return ResponseEntity.ok().body(productService.findAllPaged(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")

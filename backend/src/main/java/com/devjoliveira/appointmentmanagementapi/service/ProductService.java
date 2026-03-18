@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,9 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public List<ProductDTO> findAll() {
-    return productRepository.findAll().stream().map(ProductDTO::new).toList();
+  public Page<ProductDTO> findAllPaged(Pageable pageable) {
+    Page<Product> prods = productRepository.findAll(pageable);
+    return prods.map(ProductDTO::new);
   }
 
   @Transactional(readOnly = true)
