@@ -3,6 +3,7 @@ import { ProfessionalService } from '../../professional.service';
 import { ProfessioanlRequest, ProfessioanlResponse } from '../../professional-model';
 import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Page } from '../../../appointments/appointment-model';
 
 declare var bootstrap: any;
 
@@ -17,12 +18,15 @@ export class ProfessionalListComponent implements OnInit {
   professionals: ProfessioanlResponse[] = [];
   professional: ProfessioanlRequest = { name: '', email: '', phone: '' };
 
+  page?: Page<ProfessioanlResponse>;
+  currentPage = 0
+  pageSize = 10
+
   searchEmail = '';
   successMessage = '';
   errorMessage = '';
   successToast: any;
   errorToast: any;
-
 
   selectedProfessionalId: string | null = null;
   editingId: string | null = null;
@@ -34,17 +38,16 @@ export class ProfessionalListComponent implements OnInit {
   }
 
   loadProfessionals() {
-
-    this.professionalService.getAll()
+    this.professionalService.getAll(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
-        const list = this.professionals = data as ProfessioanlResponse[];
+        this.page = data
+        this.professionals = data.content
+        const list = this.professionals;
         this.professionals = list.filter(p => p.role !== 'ROLE_ADMIN');
       });
-
   }
 
   search() {
-
     if (!this.searchEmail) {
       this.loadProfessionals();
       return;
@@ -54,7 +57,6 @@ export class ProfessionalListComponent implements OnInit {
       .subscribe((data: any) => {
         this.professionals = [data as ProfessioanlResponse];
       });
-
   }
 
   save(form: any) {
@@ -183,6 +185,20 @@ export class ProfessionalListComponent implements OnInit {
   showError(message: string) {
     this.errorMessage = message;
     this.errorToast.show();
+  }
+
+  nextPage() {
+    if (!this.page?.last) {
+      this.currentPage++
+      this.loadProfessionals()
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--
+      this.loadProfessionals()
+    }
   }
 
 }

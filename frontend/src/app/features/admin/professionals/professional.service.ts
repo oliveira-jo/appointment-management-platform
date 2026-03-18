@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProfessioanlRequest, ProfessioanlResponse } from './professional-model';
 import { environment } from '../../../../environments/environment';
+import { Page } from '../appointments/appointment-model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,10 @@ export class ProfessionalService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {
-    return this.http.get(this.baseUrl);
+  getAll(page?: number, size?: number): Observable<Page<ProfessioanlResponse>> {
+    return this.http.get<Page<ProfessioanlResponse>>(
+      `${this.baseUrl}?page=${page}&size=${size}`
+    )
   }
 
   getById(id: string) {
