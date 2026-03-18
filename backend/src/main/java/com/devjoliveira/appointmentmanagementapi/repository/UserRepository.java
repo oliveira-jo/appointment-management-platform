@@ -1,9 +1,10 @@
 package com.devjoliveira.appointmentmanagementapi.repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.devjoliveira.appointmentmanagementapi.domain.User;
@@ -13,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
 	Optional<User> findByEmail(String email);
 
-	Optional<List<User>> findByRole(UserRole role);
+	Page<User> findByRole(UserRole role, Pageable pageable);
 
 	User findByName(String username);
 

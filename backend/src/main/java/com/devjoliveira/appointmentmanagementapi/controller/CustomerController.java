@@ -36,7 +36,7 @@ public class CustomerController {
 
   @GetMapping
   public ResponseEntity<Page<UserMinDTO>> findAll(Pageable pageable) {
-    return ResponseEntity.ok().body(userService.findAllPaged(pageable));
+    return ResponseEntity.ok().body(userService.findAllCustomers(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
