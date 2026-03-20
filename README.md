@@ -24,7 +24,7 @@ The system is centered around appointments, with the following entities:
 * Metrics
 
 ## Preview
-![Preview](../appointment-management-api/frontend/public/preview.jpg)
+![Preview](frontend/public/preview.jpg)
 
 ## Monorepo Structure
 This project follows a monorepo architecture, keeping frontend and backend together:
