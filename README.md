@@ -17,11 +17,11 @@ The main goal of this project is to build a scalable API and modern UI for manag
 
 ## Domain
 The system is centered around appointments, with the following entities:
-* Customer
-* Professional
-* Service (Product)
-* Appointment 
-* Metrics
+- Customer
+- Professional
+- Service (Product)
+- Appointment 
+- Metrics
 
 ## Preview
 ![Preview](frontend/public/preview.jpg)
@@ -36,20 +36,23 @@ This project follows a monorepo architecture, keeping frontend and backend toget
   └── README.md
 ````
 
+...
+
+
 # BACKEND (Spring Boot)
 Architecture
-* Controllers (DTO layer)
-* Services (Business rules)
-* Repositories (Data access)
-* Models / Entities
-* Security (JWT + Spring Security)
-* Infrastructure layer
-* Scheduled Jobs
+- Controllers (DTO layer)
+- Services (Business rules)
+- Repositories (Data access)
+- Models / Entities
+- Security (JWT + Spring Security)
+- Infrastructure layer
+- Scheduled Jobs
 
 ## Background Jobs
-* Automatically update appointment status
+- Automatically update appointment status
   * CONFIRMED → COMPLETED
-* Remove old appointments (older than 6 months)
+- Remove old appointments (older than 6 months)
 
 ## Appointment Service Logic
 1. Retrieve the service duration
@@ -87,24 +90,26 @@ Using the Token
 Authorization: Bearer YOUR_TOKEN
 ````
 
-# FRONTEND (Template e UI)
-* Auth com JWT (usando seu backend)
-* HTTP Interceptor para token
-* Auth Guard
-* Role-based UI (ex: ADMIN vs PROFESSIONAL)
-* Loading states
-* Error handling centralizado
-* Toast notifications
-* Reactive Forms
-* Form validation elegante
-* UI moderna (Angular Material ou Tailwind)
+...
+
+
+# FRONTEND
+- Auth com JWT (backend)
+- HTTP Interceptor para token
+- Auth Guard
+- Role-based UI (ADMIN vs PROFESSIONAL)
+- Loading states
+- Error handling centralizado
+- Toast notifications
+- Reactive Forms
+- Form validation elegante
 
 ## Frontend Tecnologies
-* Angular — Framework principal da aplicação
-* Bootstrap — Estilização e responsividade
-* AdminLTE — Template administrativo baseado em Bootstrap
-* jQuery — Manipulação de DOM (necessário para alguns plugins do AdminLTE)
-* Font Awesome — Ícones utilizados na interface
+- Angular — Application framework 
+- Bootstrap — Responsive and Styles
+- AdminLTE — Admin Template with base in Bootstrap
+- jQuery — DOM Manipulate (necessary for same plugins of AdminLTE)
+- Font Awesome — Icons for interface 
 
 ## Frontend Structure
 ````
@@ -120,7 +125,7 @@ src/app/
 ````
 
 ## Configuração no Angular
-Para garantir o funcionamento correto dos estilos e scripts, os arquivos foram adicionados no angular.json:
+To ensure the correct functioning of the styles and scrypts, the following file have been added to angular.json:
 
 + Styles
 ````JSON
@@ -142,7 +147,7 @@ Para garantir o funcionamento correto dos estilos e scripts, os arquivos foram a
 ````
 
 ## Dark Mode
-O sistema possui suporte a modo escuro através da classe global:
+The system has dark mode support, througth the global class
 ````CSS
 body.dark-mode {
   background-color: #1e1e2f;
@@ -150,7 +155,7 @@ body.dark-mode {
 }
 ````
 
-Exemplo de customização de componentes:
+Example of component customization
 ````CSS
 body.dark-mode .modal {
   background-color: #2b3035;
@@ -164,25 +169,29 @@ body.dark-mode .table {
 ````
 
 ### Observações Importantes
-* O AdminLTE depende de jQuery para funcionamento completo
-* Os plugins (como tabelas, modais, etc.) precisam dos scripts carregados corretamente
-* Alguns componentes podem precisar de inicialização manual via jQuery
+- The AdminLTE depend of jQuery for it's complete work
+- The plugins (how tables, modail, etc.) need the scripts loaded correctly
+- Samo componetns need manual inicialization by jQuery
 
-### Boas Práticas Aplicadas
-* Separação de assets em src/assets
-* Uso de Bootstrap para responsividade
-* Padronização visual com AdminLTE
-* Customização via CSS global (dark mode)
 
-### Possíveis Melhorias Futuras
-* Remover dependência de jQuery (usar Angular puro)
-* Criar componentes reutilizáveis (cards, modais, tabelas)
-* Implementar tema dinâmico (dark/light toggle persistente)
-* Migrar para bibliotecas modernas como:
+### Applied Best Practices
+- Separation of assets into src/assets
+- Use of Bootstrap for responsiveness
+- Visual standardization with AdminLTE
+- Customization via global CSS (dark mode)
+
+### Possible Future Improvements
+- Remove jQuery dependency (use pure Angular)
+- Create reusable components (cards, modals, tables)
+- Implement dynamic theming (persistent dark/light toggle)
+- Migrate to modern libraries such as:
   * Angular Material
   * Tailwind CSS
 
-# Running the Project
+...
+
+
+# RUNING THE PROJECT IDE
 1. Backend
 ````
   cd backend
@@ -199,16 +208,18 @@ body.dark-mode .table {
   ng serve
 ````
 
-# Docker Setup – Full Stack (PostgreSQL + Spring Boot + Angular)
 
-Este projeto utiliza Docker para orquestrar toda a aplicação, incluindo:
+...
 
+
+# DOCKER SETUP
+This project uses Docker to orchestrate the intare application, indluding:
 - PostgreSQL (Banco de dados)
 - Spring Boot (Backend)
 - Angular (Frontend)
 
 
-# Estrutura do Projeto
+## Estrutura do Projeto
 ```
 appointment-management-api/
 ├── backend/
@@ -222,8 +233,9 @@ appointment-management-api/
 ```
 
 
-# Variáveis de Ambiente
-Crie um arquivo `.env` na raiz do projeto:
+## Variáveis de Ambiente
+Generate a file of `.env` in root of project:
+>  ATTENTION: Generate your own strong environment variables; this is just an example.
 
 ```env
 POSTGRES_DB=appointment_db
@@ -239,15 +251,17 @@ SPRING_DATASOURCE_PASSWORD=admin123
 ```
 
 
-# PostgreSQL (Banco de Dados)
+## PostgreSQL (Banco de Dados)
 - Porta externa: `${POSTGRES_PORT}` (ex: 5433)
 - Porta interna: `5432`
 - Dados persistidos via volume Docker
 
+...
 
-# Backend (Spring Boot)
 
-## Dockerfile
+## BACKEND (Spring Boot)
+
+### Dockerfile
 
 ```dockerfile
 FROM eclipse-temurin:21-jdk-jammy
@@ -259,8 +273,8 @@ COPY target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## Build da aplicação
-Antes de subir o container:
+### Build da aplicação
+Before the container up
 
 ```bash
 cd backend
@@ -268,9 +282,12 @@ mvn clean package
 ```
 
 
-# Frontend (Angular)
+...
 
-## Dockerfile
+
+## FRONTEND (Angular)
+
+### Dockerfile
 
 ```dockerfile
 FROM node:20-alpine AS build
@@ -288,7 +305,7 @@ CMD ["nginx", "-g", "daemon off;"]
 > ATENTION: Substitua `<nome-do-projeto>` pelo nome correto gerado na pasta `dist`.
 
 
-# Comunicação entre serviços
+## Comunicação entre serviços
 Dentro do Docker:
 
 | Serviço    | Host       |
@@ -298,14 +315,12 @@ Dentro do Docker:
 | Frontend   | `frontend` |
 
 
-# Configuração da API no Angular
-> ATENTION
-Dentro do frontend, use:
+## Configuração da API no Angular
+> ATENTION: Inside the frontend, use:
 
 ```ts
 apiUrl = 'http://backend:8080';
 ```
-
 
 # docker-compose.yml
 
@@ -352,7 +367,35 @@ volumes:
 ```
 
 
-# Como Executar o Projeto
+## Configurate environment
+
+- Backend: application.properties: 
+````
+spring.profiles.active=docker
+````
+
+- Frontend: environments.prod.ts
+- if using a localhosts
+````ts
+export const environment = {
+  production: true,
+  apiUrl: 'http://localhost:8080/api/v1'
+};
+````
+
+- if using a your-domain-server
+````ts
+export const environment = {
+  production: true,
+  apiUrl: 'http://your-domain-server:8080/api/v1'
+};
+````
+
+
+...
+
+
+# HOW TO EXECUTE THE PROJECT
 ## 1. Build do backend
 ```bash
 cd backend
@@ -360,70 +403,68 @@ mvn clean package
 cd ..
 ```
 
-
-## 2. Subir os containers
+## 2. BRING UP THE CONTAINERS
 ```bash
 docker compose up --build -d
 ```
 
-
-## 3. Acessar os serviços
+## 3. ACCESS THE SERVICES
 * Frontend: http://localhost:4200
 * Backend: http://localhost:8080
 * PostgreSQL: localhost:${POSTGRES_PORT}
 
-
-# Comandos Úteis
-## Ver containers rodando
+# USEFUL COMMANDS
+## View running containers
 ```bash
 docker ps
 ```
 
-## Parar containers
+## Stop containers
 ```bash
 docker compose down
 ```
 
-## Ver logs
+## See logs
 ```bash
 docker compose logs -f
 ```
 
-# Problemas Comuns
-##  *Erro* de conexão com banco
+# Commun Problens
+##  *Erro* of database conection
 
-* Verifique se o backend está usando:
+* Check if the backend is using:
   ```
   postgres:5432
   ```
 
-##  *Erro* de versão do Java
+##  *Erro*  Java Version
 
-* Certifique-se de usar Java 21 no Dockerfile
+* Make sure to use Java 21 in the Dockerfile
 
-## *Variáveis* `.env` não carregando
+## *Variables* `.env` not loagind
 
-* O arquivo `.env` deve estar na raiz do projeto
+* The file `.env` must to be in the project root
 
-## *CORS* no backend
+## *CORS* in backend
 
-* Configure CORS no Spring Boot
-
-
-# Melhorias Futuras
-* Adicionar pgAdmin
-* Configurar Nginx como gateway
-* Implementar Flyway/Liquibase
-* Criar profiles (dev/prod)
-* Deploy em nuvem (AWS, Railway, VPS)
+* Configure CORS in Spring Boot
 
 
-# Resultado Final
-Ambiente completo com:
-- Banco de dados persistente
-- Backend containerizado
-- Frontend servido via Nginx
-- Comunicação interna via rede Docker
+## Future Improvements
+_ Add pgAdmin
+_ Configure Nginx as a gateway
+_ Implement Flyway/Liquibase
+_ Create profiles (dev/prod)
+_ Deploy to the cloud (AWS, Railway, VPS)
+
+
+## Final Result
+Complete environment with:
+- Persistent database
+- Containerized backend
+- Frontend served via Nginx
+- Internal communication via Docker network
+
 
 
 
