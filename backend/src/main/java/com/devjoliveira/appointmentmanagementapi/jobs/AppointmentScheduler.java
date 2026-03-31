@@ -16,12 +16,14 @@ public class AppointmentScheduler {
   }
 
   // Update Appointment Status to COMPLETED
-  @Scheduled(fixedRate = 30000) // a cada 1 minuto
+  // Every 60 seconds
+  @Scheduled(fixedRate = 60000)
   public void run() {
     service.updateCompletedAppointments();
   }
 
   // Clean old datas
+  // Every day at 1:00 AM
   @Scheduled(cron = "0 0 1 * * *")
   public void cleanup() {
     service.deleteOldAppointments();
