@@ -4,7 +4,7 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres-db
+    container_name: appointment-db
     restart: always
     environment:
       POSTGRES_DB: appointment_db
@@ -34,6 +34,10 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
   frontend:
     build: ./frontend

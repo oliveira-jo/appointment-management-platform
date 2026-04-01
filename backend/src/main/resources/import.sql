@@ -18,6 +18,5 @@ INSERT INTO tb_product (id, name, duration_in_seconds, price, created_at) VALUES
 INSERT INTO tb_product (id, name, duration_in_seconds, price, created_at) VALUES ('a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890', 'Corte de Cabelo Premium e Barba',  3600000000000,  70.00,  CURRENT_TIMESTAMP);
 INSERT INTO tb_product (id, name, duration_in_seconds, price, created_at) VALUES ('b2c3d4e5-f678-9012-a3b4-c5d6e7f89012', 'Pintura de Cabelo',  3600000000000,  80.00,  CURRENT_TIMESTAMP);
 
-
 INSERT INTO tb_appointment (id, customer_id, professional_id, product_id, scheduled_at, reminder_sent, appointment_status, created_at) VALUES ('c7e8f9a0-b1c2-d3e4-f5a6-b7c8d9e0f1a2', 'c7e8f9a0-b1c2-d3e4-f5a6-b7c8d9e0f1a2', '12345678-1234-1234-1234-123456789012',  'b2c3d4e5-f678-9012-a3b4-c5d6e7f89012',  TIMESTAMP WITH TIME ZONE '2026-04-02T19:00:00Z', false, 'CONFIRMED', CURRENT_TIMESTAMP);
 
