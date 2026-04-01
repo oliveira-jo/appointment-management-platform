@@ -31,8 +31,8 @@ public class AppointmentScheduler {
     appointmentService.deleteOldAppointments();
   }
 
-  @Scheduled(fixedRate = 60000) // For testing: every 60 seconds
-  // @Scheduled(cron = "0 0 7 * * *")
+  // @Scheduled(fixedRate = 60000) // For testing: every 60 seconds
+  @Scheduled(cron = "0 0 7 * * *")
   public void sendReminderOneDayBefore() {
     notificationService.sendReminderOneDayBefore();
   }
