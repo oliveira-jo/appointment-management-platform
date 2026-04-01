@@ -53,6 +53,7 @@ Architecture
 - Automatically update appointment status
   * CONFIRMED → COMPLETED
 - Remove old appointments (older than 6 months)
+- Send Reminder Appointment One Day Before (Twilio and Mail)
 
 ## Appointment Service Logic
 1. Retrieve the service duration
@@ -349,9 +350,18 @@ services:
     depends_on:
       - postgres
     environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_INTERNAL_PORT: ${POSTGRES_INTERNAL_PORT}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
   frontend:
     build: ./frontend
