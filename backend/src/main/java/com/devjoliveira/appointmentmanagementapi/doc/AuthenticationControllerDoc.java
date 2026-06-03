@@ -21,7 +21,7 @@ import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
 
 // @formatter:off
 
-@Tag(name = "Authentication", description = "Operations for authentication")
+@Tag(name = "Authentication", description = "Operations for user authentication")
 public interface AuthenticationControllerDoc {
 
   @Operation(

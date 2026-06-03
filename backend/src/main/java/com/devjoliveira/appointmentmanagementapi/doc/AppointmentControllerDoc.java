@@ -2,6 +2,7 @@ package com.devjoliveira.appointmentmanagementapi.doc;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
 
 // @formatter:off
 
-@Tag(name = "Appointments", description = "Operations for registration, consultation, updating, deletion and filtering of appointments")
+@Tag(name = "Appointments", description = "Operations for registration, consultation, updating, deletion appointments")
 public interface AppointmentControllerDoc {
 
 
@@ -102,7 +103,7 @@ public interface AppointmentControllerDoc {
     summary = "Delete Appointment", description = "Remove an appointment from the system",
     responses = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "204",
                     description = "Appointment deleted successfully"
             ),
             @ApiResponse(
@@ -110,9 +111,9 @@ public interface AppointmentControllerDoc {
                     description = "Validation error or business rule violation",
                     content = @Content(schema = @Schema(implementation = StandardError.class))
             )})
-  ResponseEntity<Void> deleteById(
+  ResponseEntity<Void> delete(
     @Parameter(description = "ID of the appointment to be deleted", required = true)
-    Long id);
+    UUID id);
 
 }
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devjoliveira.appointmentmanagementapi.doc.AuthenticationControllerDoc;
 import com.devjoliveira.appointmentmanagementapi.dto.AuthResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.LoginRequestDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
@@ -23,7 +24,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationControllerDoc {
 
   private final JwtUtil jwtUtil;
 

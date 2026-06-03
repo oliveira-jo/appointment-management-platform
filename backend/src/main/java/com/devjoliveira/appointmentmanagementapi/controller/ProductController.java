@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.devjoliveira.appointmentmanagementapi.doc.ProductControllerDoc;
 import com.devjoliveira.appointmentmanagementapi.dto.ProductDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.ProductMinDTO;
 import com.devjoliveira.appointmentmanagementapi.service.ProductService;
@@ -26,7 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductController implements ProductControllerDoc {
 
   private final ProductService productService;
 

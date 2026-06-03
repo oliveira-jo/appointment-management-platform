@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 // @formatter:off
 
-@Tag(name = "Products", description = "Operations for registration, consultation, updating, deletion and filtering of products")
+@Tag(name = "Products", description = "Operations for registration, consultation, updating, deletion products")
 public interface ProductControllerDoc {
 
   
@@ -44,7 +44,7 @@ public interface ProductControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of products returned successfully")
                 })
-        ResponseEntity<Page<ProductDTO>> findAll(
+        ResponseEntity<Page<ProductDTO>> findAllPaged(
                 @Parameter(description = "Optional filters for searching products", required = false) 
                 Pageable pageable
                 );
@@ -75,7 +75,7 @@ public interface ProductControllerDoc {
                                 description = "Product not found or invalid ID",
                                 content = @Content(schema = @Schema(implementation =  StandardError.class))
                         )})
-        ResponseEntity<ProductDTO> findByName(
+        ResponseEntity<List<ProductDTO>> findByName(
             @Parameter(description = "Product Name", example = "Product Name", required = true) String name);
 
 
@@ -125,7 +125,7 @@ public interface ProductControllerDoc {
                     )})
         ResponseEntity<ProductDTO> change(
                         @Parameter(description = "ID of the product to be changed", required = true)
-                        Long id,
+                        UUID id,
                         @RequestBody @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to update a product",
@@ -147,7 +147,7 @@ public interface ProductControllerDoc {
                 summary = "Delete product", description = "Remove a product from the system",
                 responses = {
                         @ApiResponse(
-                                responseCode = "200",
+                                responseCode = "204",
                                 description = "Product deleted successfully"
                         ),
                         @ApiResponse(
@@ -155,9 +155,9 @@ public interface ProductControllerDoc {
                                 description = "Validation error or business rule violation",
                                 content = @Content(schema = @Schema(implementation = StandardError.class))
                         )})
-        ResponseEntity<Void> deleteById(
+        ResponseEntity<Void> delete(
                 @Parameter(description = "ID of the product to be deleted", required = true)
-                Long id);
+                UUID id);
 
 }
 

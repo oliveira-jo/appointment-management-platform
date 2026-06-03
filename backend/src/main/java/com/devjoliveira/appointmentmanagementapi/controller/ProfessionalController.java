@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.devjoliveira.appointmentmanagementapi.doc.ProfessionalControllerDoc;
 import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.UserMinDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.UserRole;
@@ -27,7 +28,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/professionals")
-public class ProfessionalController {
+public class ProfessionalController implements ProfessionalControllerDoc {
 
   private final UserService userService;
 

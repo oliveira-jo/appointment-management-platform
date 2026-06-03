@@ -1,6 +1,7 @@
 
 package com.devjoliveira.appointmentmanagementapi.doc;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 // @formatter:off
 
-@Tag(name = "Professionals", description = "Operations for registration, consultation, updating, deletion and filtering of professionals")
+@Tag(name = "Professionals", description = "Operations for registration, consultation, updating, deletion professionals")
 public interface ProfessionalControllerDoc {
 
   
@@ -34,7 +35,7 @@ public interface ProfessionalControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of professionals returned successfully")
                 })
-        ResponseEntity<Page<UserMinDTO>> findAll();
+        ResponseEntity<List<UserMinDTO>> findAll();
 
         // Find All Professionals Pageable
         @Operation(
@@ -125,7 +126,7 @@ public interface ProfessionalControllerDoc {
                     )})
         ResponseEntity<UserDTO> change(
                         @Parameter(description = "ID of the professional to be changed", required = true)
-                        Long id,
+                        UUID id,
                         @RequestBody @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to update a professional",
@@ -149,7 +150,7 @@ public interface ProfessionalControllerDoc {
                 summary = "Delete professional", description = "Remove a professional from the system",
                 responses = {
                         @ApiResponse(
-                                responseCode = "200",
+                                responseCode = "204",
                                 description = "Professional deleted successfully"
                         ),
                         @ApiResponse(
@@ -157,9 +158,9 @@ public interface ProfessionalControllerDoc {
                                 description = "Validation error or business rule violation",
                                 content = @Content(schema = @Schema(implementation = StandardError.class))
                         )})
-        ResponseEntity<Void> deleteById(
+        ResponseEntity<Void> delete(
                 @Parameter(description = "ID of the professional to be deleted", required = true)
-                Long id);
+                UUID id);
 
 }
 

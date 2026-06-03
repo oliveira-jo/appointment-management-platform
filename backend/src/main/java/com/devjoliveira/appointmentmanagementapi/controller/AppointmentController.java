@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.devjoliveira.appointmentmanagementapi.doc.AppointmentControllerDoc;
 import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.AppointmentMinDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
@@ -28,7 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/appointments")
-public class AppointmentController {
+public class AppointmentController implements AppointmentControllerDoc {
 
   private final AppointmentService appointmentService;
 
