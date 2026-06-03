@@ -44,6 +44,9 @@ public class SecurityConfig {
         .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/h2-console/**").permitAll()
+            .requestMatchers("/swagger-ui/**").permitAll()
+            .requestMatchers("/v3/api-docs/**").permitAll()
+            .requestMatchers("/swagger-ui.html").permitAll()
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers(HttpMethod.GET, "/professionals").permitAll()
             .requestMatchers(HttpMethod.GET, "/products").permitAll()
