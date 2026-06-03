@@ -19,9 +19,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 import com.devjoliveira.appointmentmanagementapi.controller.exceptions.StandardError;
-import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.AppointmentMinDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.AppointmentResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.AppointmentRequestDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.MetricsResponseDTO;
 
 // @formatter:off
 
@@ -37,7 +37,7 @@ public interface AppointmentControllerDoc {
       responses = {
               @ApiResponse(responseCode = "200", description = "List of appointments returned successfully")
       })
-  ResponseEntity<Page<AppointmentDTO>> findAll(
+  ResponseEntity<Page<AppointmentResponseDTO>> findAll(
       @Parameter(description = "Optional filters for searching appointments", required = false) 
       Pageable pageable
       );
@@ -53,17 +53,17 @@ public interface AppointmentControllerDoc {
                     description = "Appointments not found or invalid ID",
                     content = @Content(schema = @Schema(implementation =  StandardError.class))
             )})
-  ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
+  ResponseEntity<List<AppointmentResponseDTO>> findAppointmentsByDay(
       @Parameter(description = "Day of the appointments to find", example = "dd-MM-yyyy", required = true)
       LocalDate day);
 
-      // Find By ID
+        // Get Metrics
   @Operation(
           summary = "Find Metrics",
           description = "Returns metrics for a specific appointment",
           responses = {
                   @ApiResponse(responseCode = "200", description = "Appointment metrics found")})
-  ResponseEntity<MetricsDTO> GetMetrics();
+  ResponseEntity<MetricsResponseDTO> GetMetrics();
 
 
   // Save
@@ -79,12 +79,12 @@ public interface AppointmentControllerDoc {
                     description = "Validation error or business rule violation",
                     content = @Content(schema = @Schema(implementation = StandardError.class))
             )})
-  ResponseEntity<AppointmentDTO> save(
+  ResponseEntity<AppointmentResponseDTO> save(
       @RequestBody
       @Valid
       @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Necessary data to register a customer", required = true,
-            content = @Content(schema = @Schema(implementation = AppointmentMinDTO.class),
+            content = @Content(schema = @Schema(implementation = AppointmentRequestDTO.class),
             examples = @ExampleObject(
                     name = "Appointment valid",
                     value = """
@@ -96,7 +96,7 @@ public interface AppointmentControllerDoc {
                               "status": "SCHEDULED"
                             }
                             """ )))
-      AppointmentMinDTO productMinRequest);
+      AppointmentRequestDTO productMinRequest);
 
   // Delete
   @Operation(

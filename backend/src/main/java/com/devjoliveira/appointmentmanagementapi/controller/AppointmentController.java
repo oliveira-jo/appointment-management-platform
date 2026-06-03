@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devjoliveira.appointmentmanagementapi.doc.AppointmentControllerDoc;
-import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.AppointmentMinDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.AppointmentResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.AppointmentRequestDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.MetricsResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -38,28 +38,28 @@ public class AppointmentController implements AppointmentControllerDoc {
   }
 
   @GetMapping
-  public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<AppointmentResponseDTO>> findAll(Pageable pageable) {
     return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/day/{day}")
-  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
+  public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentsByDay(
       @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @GetMapping("/metrics")
-  public ResponseEntity<MetricsDTO> GetMetrics() {
+  public ResponseEntity<MetricsResponseDTO> GetMetrics() {
     return ResponseEntity.ok().body(appointmentService.getMetrics());
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
-  public ResponseEntity<AppointmentDTO> save(@RequestBody @Valid AppointmentMinDTO request) {
+  public ResponseEntity<AppointmentResponseDTO> save(@RequestBody @Valid AppointmentRequestDTO request) {
 
-    AppointmentDTO appointmentDTO = appointmentService.createAppointment(request.customerEmail(),
+    AppointmentResponseDTO appointmentDTO = appointmentService.createAppointment(request.customerEmail(),
         request.professionalEmail(), request.productName(), request.scheduledAt());
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.devjoliveira.appointmentmanagementapi.controller.exceptions.StandardError;
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.UserMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserRequestDTO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public interface CustomerControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of customers returned successfully")
                 })
-        ResponseEntity<List<UserMinDTO>> findAll();
+        ResponseEntity<List<UserRequestDTO>> findAll();
 
         // Find All Customers Pageable
         @Operation(
@@ -44,7 +44,7 @@ public interface CustomerControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of customers returned successfully")
                 })
-        ResponseEntity<Page<UserMinDTO>> findAll(
+        ResponseEntity<Page<UserRequestDTO>> findAll(
                  @Parameter(description = "Optional filters for searching customers", required = false) 
                 Pageable pageable
                 );
@@ -61,7 +61,7 @@ public interface CustomerControllerDoc {
                                 description = "Customer not found or invalid ID",
                                 content = @Content(schema = @Schema(implementation =  StandardError.class))
                         )})
-        ResponseEntity<UserDTO> findByEmail(
+        ResponseEntity<UserResponseDTO> findByEmail(
             @Parameter(description = "Customer Email", example = "joao@email.com", required = true) String email);
 
 
@@ -76,7 +76,7 @@ public interface CustomerControllerDoc {
                                 description = "Customer not found or invalid ID",
                                 content = @Content(schema = @Schema(implementation =  StandardError.class))
                         )})
-        ResponseEntity<UserDTO> findById(
+        ResponseEntity<UserResponseDTO> findById(
             @Parameter(description = "Customer ID", example = "550e8400-e29b-41d4-a716-446655440000", required = true) UUID id);
 
 
@@ -94,12 +94,12 @@ public interface CustomerControllerDoc {
                             description = "Validation error or business rule violation",
                             content = @Content(schema = @Schema(implementation = StandardError.class))
                     )})
-        ResponseEntity<UserDTO> save(
+        ResponseEntity<UserResponseDTO> save(
                         @RequestBody
                         @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to register a customer", required = true,
-                              content = @Content(schema = @Schema(implementation = UserMinDTO.class),
+                              content = @Content(schema = @Schema(implementation = UserRequestDTO.class),
                               examples = @ExampleObject(
                                       name = "Customer valid",
                                       value = """
@@ -111,7 +111,7 @@ public interface CustomerControllerDoc {
                                                     "role": "CUSTOMER",
                                               }
                                               """ )))
-                        UserMinDTO userMinRequest);
+                        UserRequestDTO userMinRequest);
 
         // Change
         @Operation(
@@ -126,14 +126,14 @@ public interface CustomerControllerDoc {
                             description = "Validation error or business rule violation",
                             content = @Content(schema = @Schema(implementation = StandardError.class))
                     )})
-        ResponseEntity<UserDTO> change(
+        ResponseEntity<UserResponseDTO> change(
                         @Parameter(description = "ID of the customer to be changed", required = true)
                         UUID id,
                         @RequestBody @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to update a customer",
                               required = true,
-                              content = @Content(schema = @Schema(implementation = UserMinDTO.class),
+                              content = @Content(schema = @Schema(implementation = UserRequestDTO.class),
                               examples = @ExampleObject(
                                       name = "Customer valid",
                                       value = """
@@ -145,7 +145,7 @@ public interface CustomerControllerDoc {
                                                     "role": "CUSTOMER",
                                               }
                                               """)))
-                                UserMinDTO userMinRequest);
+                                UserRequestDTO userMinRequest);
 
         // Delete
         @Operation(

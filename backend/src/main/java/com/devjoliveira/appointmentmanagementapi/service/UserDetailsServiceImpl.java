@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.devjoliveira.appointmentmanagementapi.domain.User;
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.security.CustomUserDetails;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
 
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     // logger.info("Getting information for user {}", email);
-    UserDTO dto = userService.findByEmail(email);
+    UserResponseDTO dto = userService.findByEmail(email);
     if (dto == null) {
       throw new ResourceNotFoundException("Could not find user");
     }

@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devjoliveira.appointmentmanagementapi.domain.Appointment;
 import com.devjoliveira.appointmentmanagementapi.domain.Product;
 import com.devjoliveira.appointmentmanagementapi.domain.User;
-import com.devjoliveira.appointmentmanagementapi.dto.AppointmentDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.MetricsDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.AppointmentResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.MetricsResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.AppointmentStatus;
 import com.devjoliveira.appointmentmanagementapi.repository.AppointmentRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.ProductRepository;
@@ -44,25 +44,26 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public List<AppointmentDTO> findAppointmentsByDay(LocalDate day) {
+  public List<AppointmentResponseDTO> findAppointmentsByDay(LocalDate day) {
 
     LocalDateTime startOfDay = day.atStartOfDay();
     LocalDateTime endOfDay = day.atTime(LocalTime.MAX);
 
-    return appointmentRepository.findByScheduledAtBetween(startOfDay, endOfDay).stream().map(AppointmentDTO::new)
+    return appointmentRepository.findByScheduledAtBetween(startOfDay, endOfDay).stream()
+        .map(AppointmentResponseDTO::new)
         .toList();
 
   }
 
   @Transactional(readOnly = true)
-  public Page<AppointmentDTO> findAllPaged(Pageable pageable) {
+  public Page<AppointmentResponseDTO> findAllPaged(Pageable pageable) {
 
     Page<Appointment> appointments = appointmentRepository.findAll(pageable);
-    return appointments.map(AppointmentDTO::new);
+    return appointments.map(AppointmentResponseDTO::new);
   }
 
   @Transactional(readOnly = true)
-  public MetricsDTO getMetrics() {
+  public MetricsResponseDTO getMetrics() {
 
     LocalDate today = LocalDate.now();
     LocalDate firstDayOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
@@ -86,11 +87,11 @@ public class AppointmentService {
     Integer weekAppointments = appointmentRepository.findByScheduledAtBetween(start, end).size();
     Integer totalAppointments = this.appointmentRepository.findAll().size();
 
-    return new MetricsDTO(todayAppointments, weekAppointments, todayRevenue, totalAppointments);
+    return new MetricsResponseDTO(todayAppointments, weekAppointments, todayRevenue, totalAppointments);
   }
 
   @Transactional
-  public AppointmentDTO createAppointment(String customerEmail, String professionalEmail, String productName,
+  public AppointmentResponseDTO createAppointment(String customerEmail, String professionalEmail, String productName,
       LocalDateTime scheduledAt) {
 
     User customer = userRepository.findByEmail(customerEmail).orElseThrow(
@@ -130,7 +131,7 @@ public class AppointmentService {
 
     var fromDB = appointmentRepository.save(appointment);
 
-    return new AppointmentDTO(fromDB);
+    return new AppointmentResponseDTO(fromDB);
   }
 
   @Transactional

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.devjoliveira.appointmentmanagementapi.domain.User;
 
-public record UserDTO(
+public record UserResponseDTO(
                 UUID id,
                 String name,
                 String phone,
@@ -12,7 +12,7 @@ public record UserDTO(
                 String role,
                 String password) {
 
-        public UserDTO(User customer) {
+        public UserResponseDTO(User customer) {
                 this(customer.getId(), customer.getName(), customer.getPhone(), customer.getEmail(),
                                 customer.getRole().name(), customer.getPassword());
         }

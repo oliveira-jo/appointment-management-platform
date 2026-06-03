@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devjoliveira.appointmentmanagementapi.doc.AuthenticationControllerDoc;
 import com.devjoliveira.appointmentmanagementapi.dto.AuthResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.LoginRequestDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.security.CustomUserDetails;
 import com.devjoliveira.appointmentmanagementapi.security.JwtUtil;
 
@@ -54,9 +54,9 @@ public class AuthenticationController implements AuthenticationControllerDoc {
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping
-  public ResponseEntity<UserDTO> getUserLogged(Authentication authentication) {
+  public ResponseEntity<UserResponseDTO> getUserLogged(Authentication authentication) {
 
-    UserDTO userDetails = (UserDTO) authentication.getPrincipal();
+    UserResponseDTO userDetails = (UserResponseDTO) authentication.getPrincipal();
 
     return ResponseEntity.ok().body(userDetails);
 

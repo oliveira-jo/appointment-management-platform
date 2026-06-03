@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public record UserMinDTO(
+public record UserRequestDTO(
 
                 UUID id,
                 @NotBlank(message = "Name is required") String name,
@@ -17,7 +17,7 @@ public record UserMinDTO(
                 String password,
                 String role) {
 
-        public UserMinDTO(User customer) {
+        public UserRequestDTO(User customer) {
                 this(customer.getId(), customer.getName(), customer.getPhone(), customer.getEmail(),
                                 customer.getPassword(),
                                 customer.getRole().toString());

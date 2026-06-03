@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devjoliveira.appointmentmanagementapi.doc.ProductControllerDoc;
-import com.devjoliveira.appointmentmanagementapi.dto.ProductDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.ProductMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.ProductResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.ProductRequestDTO;
 import com.devjoliveira.appointmentmanagementapi.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -36,32 +36,32 @@ public class ProductController implements ProductControllerDoc {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<ProductDTO>> findAll() {
+  public ResponseEntity<List<ProductResponseDTO>> findAll() {
     return ResponseEntity.ok().body(productService.findAll());
   }
 
   @GetMapping
-  public ResponseEntity<Page<ProductDTO>> findAllPaged(Pageable pageable) {
+  public ResponseEntity<Page<ProductResponseDTO>> findAllPaged(Pageable pageable) {
     return ResponseEntity.ok().body(productService.findAllPaged(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/{id}")
-  public ResponseEntity<ProductDTO> findById(@PathVariable UUID id) {
+  public ResponseEntity<ProductResponseDTO> findById(@PathVariable UUID id) {
     return ResponseEntity.ok().body(productService.findById(id));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/name/{name}")
-  public ResponseEntity<List<ProductDTO>> findByName(@PathVariable String name) {
+  public ResponseEntity<List<ProductResponseDTO>> findByName(@PathVariable String name) {
     return ResponseEntity.ok().body(productService.findByName(name));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
-  public ResponseEntity<ProductDTO> save(@RequestBody @Valid ProductMinDTO request) {
+  public ResponseEntity<ProductResponseDTO> save(@RequestBody @Valid ProductRequestDTO request) {
 
-    ProductDTO productDTO = productService.save(request);
+    ProductResponseDTO productDTO = productService.save(request);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(productDTO.id()).toUri();
@@ -72,7 +72,8 @@ public class ProductController implements ProductControllerDoc {
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PutMapping("/{id}")
-  public ResponseEntity<ProductDTO> change(@PathVariable UUID id, @RequestBody @Valid ProductMinDTO request) {
+  public ResponseEntity<ProductResponseDTO> change(@PathVariable UUID id,
+      @RequestBody @Valid ProductRequestDTO request) {
     return ResponseEntity.ok().body(productService.change(id, request));
   }
 

@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import com.devjoliveira.appointmentmanagementapi.domain.Product;
 
-public record ProductDTO(
+public record ProductResponseDTO(
     UUID id,
     String name,
     Long durationInSeconds,
     BigDecimal price) {
 
-  public ProductDTO(Product product) {
+  public ProductResponseDTO(Product product) {
     this(product.getId(), product.getName(), product.getDurationInSeconds().toSeconds(), product.getPrice());
   }
 

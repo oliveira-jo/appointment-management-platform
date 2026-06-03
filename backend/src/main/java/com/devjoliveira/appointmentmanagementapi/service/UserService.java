@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devjoliveira.appointmentmanagementapi.domain.User;
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.UserMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserRequestDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.UserRole;
 import com.devjoliveira.appointmentmanagementapi.repository.UserRepository;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.DatabaseException;
@@ -29,36 +29,36 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
-  public Page<UserMinDTO> findAllProfessionalsPage(Pageable pageable) {
+  public Page<UserRequestDTO> findAllProfessionalsPage(Pageable pageable) {
     Page<User> page = userRepository.findByRole(UserRole.ROLE_PROFESSIONAL, pageable);
-    return page.map(UserMinDTO::new);
+    return page.map(UserRequestDTO::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<UserMinDTO> findAllCustomersPage(Pageable pageable) {
+  public Page<UserRequestDTO> findAllCustomersPage(Pageable pageable) {
     Page<User> page = userRepository.findByRole(UserRole.ROLE_CUSTOMER, pageable);
-    return page.map(UserMinDTO::new);
+    return page.map(UserRequestDTO::new);
   }
 
   @Transactional(readOnly = true)
-  public List<UserMinDTO> findAllProfessionals() {
-    return userRepository.findByRole(UserRole.ROLE_PROFESSIONAL).stream().map(UserMinDTO::new).toList();
+  public List<UserRequestDTO> findAllProfessionals() {
+    return userRepository.findByRole(UserRole.ROLE_PROFESSIONAL).stream().map(UserRequestDTO::new).toList();
   }
 
   @Transactional(readOnly = true)
-  public List<UserMinDTO> findAllCustomers() {
-    return userRepository.findByRole(UserRole.ROLE_CUSTOMER).stream().map(UserMinDTO::new).toList();
+  public List<UserRequestDTO> findAllCustomers() {
+    return userRepository.findByRole(UserRole.ROLE_CUSTOMER).stream().map(UserRequestDTO::new).toList();
   }
 
   @Transactional(readOnly = true)
-  public UserDTO findByEmail(String email) {
-    return userRepository.findByEmail(email).map(UserDTO::new).orElseThrow(
+  public UserResponseDTO findByEmail(String email) {
+    return userRepository.findByEmail(email).map(UserResponseDTO::new).orElseThrow(
         () -> new ResourceNotFoundException("User not found with email: " + email));
   }
 
   @Transactional(readOnly = true)
-  public UserDTO findById(UUID id) {
-    return userRepository.findById(id).map(UserDTO::new).orElseThrow(
+  public UserResponseDTO findById(UUID id) {
+    return userRepository.findById(id).map(UserResponseDTO::new).orElseThrow(
         () -> new ResourceNotFoundException("User not found with id: " + id));
   }
 
@@ -72,7 +72,7 @@ public class UserService {
   }
 
   @Transactional
-  public UserDTO save(UserMinDTO request, UserRole role) {
+  public UserResponseDTO save(UserRequestDTO request, UserRole role) {
     userRepository.findByEmail(request.email()).ifPresent(customer -> {
       throw new DuplicateKeyException("User with email " + customer.getEmail() + " already exists");
     });
@@ -89,11 +89,11 @@ public class UserService {
       entity.setPassword(new BCryptPasswordEncoder().encode(request.password()));
 
     var fromDB = userRepository.save(entity);
-    return new UserDTO(fromDB);
+    return new UserResponseDTO(fromDB);
   }
 
   @Transactional
-  public UserDTO change(UUID id, UserMinDTO request) {
+  public UserResponseDTO change(UUID id, UserRequestDTO request) {
 
     var fromDB = userRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("User with id " + id + " not found"));
@@ -109,7 +109,7 @@ public class UserService {
     fromDB.setEmail(request.email());
 
     var updatedCustomer = userRepository.save(fromDB);
-    return new UserDTO(updatedCustomer);
+    return new UserResponseDTO(updatedCustomer);
   }
 
   @Transactional

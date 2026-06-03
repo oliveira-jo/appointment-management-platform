@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AppointmentMinDTO(
+public record AppointmentRequestDTO(
                 UUID id,
                 @NotBlank(message = "Customer email is required") String customerEmail,
                 @NotBlank(message = "Professional email is required") String professionalEmail,
@@ -16,7 +16,7 @@ public record AppointmentMinDTO(
                 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime scheduledAt,
                 String status) {
 
-        public AppointmentMinDTO(Appointment entity) {
+        public AppointmentRequestDTO(Appointment entity) {
                 this(entity.getId(), entity.getCustomer().getEmail(),
                                 entity.getProfessional().getEmail(),
                                 entity.getProduct().getName(), entity.getScheduledAt(),

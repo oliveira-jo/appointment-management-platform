@@ -3,7 +3,7 @@ package com.devjoliveira.appointmentmanagementapi.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -53,7 +53,7 @@ public class User {
     this.role = role;
   }
 
-  public User(UserDTO dto) {
+  public User(UserResponseDTO dto) {
     this.id = dto.id();
     this.name = dto.name();
     this.phone = dto.phone();

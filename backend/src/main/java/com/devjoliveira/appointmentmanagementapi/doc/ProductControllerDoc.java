@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.devjoliveira.appointmentmanagementapi.controller.exceptions.StandardError;
-import com.devjoliveira.appointmentmanagementapi.dto.ProductDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.ProductMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.ProductResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.ProductRequestDTO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public interface ProductControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of products returned successfully")
                 })
-        ResponseEntity<List<ProductDTO>> findAll();
+        ResponseEntity<List<ProductResponseDTO>> findAll();
 
         // Find All Products Pageable
         @Operation(
@@ -44,7 +44,7 @@ public interface ProductControllerDoc {
                 responses = {
                         @ApiResponse(responseCode = "200", description = "List of products returned successfully")
                 })
-        ResponseEntity<Page<ProductDTO>> findAllPaged(
+        ResponseEntity<Page<ProductResponseDTO>> findAllPaged(
                 @Parameter(description = "Optional filters for searching products", required = false) 
                 Pageable pageable
                 );
@@ -60,7 +60,7 @@ public interface ProductControllerDoc {
                                 description = "Product not found or invalid ID",
                                 content = @Content(schema = @Schema(implementation =  StandardError.class))
                         )})
-        ResponseEntity<ProductDTO> findById(
+        ResponseEntity<ProductResponseDTO> findById(
             @Parameter(description = "Product ID", example = "550e8400-e29b-41d4-a716-446655440000", required = true) UUID id);
 
 
@@ -75,7 +75,7 @@ public interface ProductControllerDoc {
                                 description = "Product not found or invalid ID",
                                 content = @Content(schema = @Schema(implementation =  StandardError.class))
                         )})
-        ResponseEntity<List<ProductDTO>> findByName(
+        ResponseEntity<List<ProductResponseDTO>> findByName(
             @Parameter(description = "Product Name", example = "Product Name", required = true) String name);
 
 
@@ -93,12 +93,12 @@ public interface ProductControllerDoc {
                             description = "Validation error or business rule violation",
                             content = @Content(schema = @Schema(implementation = StandardError.class))
                     )})
-        ResponseEntity<ProductDTO> save(
+        ResponseEntity<ProductResponseDTO> save(
                         @RequestBody
                         @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to register a customer", required = true,
-                              content = @Content(schema = @Schema(implementation = ProductMinDTO.class),
+                              content = @Content(schema = @Schema(implementation = ProductRequestDTO.class),
                               examples = @ExampleObject(
                                       name = "Customer valid",
                                       value = """
@@ -108,7 +108,7 @@ public interface ProductControllerDoc {
                                                 "price": 79.99
                                               }
                                               """ )))
-                        ProductMinDTO productMinRequest);
+                        ProductRequestDTO productMinRequest);
 
         // Change
         @Operation(
@@ -123,14 +123,14 @@ public interface ProductControllerDoc {
                             description = "Validation error or business rule violation",
                             content = @Content(schema = @Schema(implementation = StandardError.class))
                     )})
-        ResponseEntity<ProductDTO> change(
+        ResponseEntity<ProductResponseDTO> change(
                         @Parameter(description = "ID of the product to be changed", required = true)
                         UUID id,
                         @RequestBody @Valid
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(
                               description = "Necessary data to update a product",
                               required = true,
-                              content = @Content(schema = @Schema(implementation = ProductMinDTO.class),
+                              content = @Content(schema = @Schema(implementation = ProductRequestDTO.class),
                               examples = @ExampleObject(
                                       name = "Product valid",
                                       value = """
@@ -140,7 +140,7 @@ public interface ProductControllerDoc {
                                                 "price": 99.99
                                               }
                                               """)))
-                                ProductMinDTO productMinRequest);
+                                ProductRequestDTO productMinRequest);
 
         // Delete
         @Operation(

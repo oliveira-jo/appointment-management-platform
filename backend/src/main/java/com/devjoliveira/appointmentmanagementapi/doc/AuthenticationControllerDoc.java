@@ -17,7 +17,7 @@ import com.devjoliveira.appointmentmanagementapi.controller.exceptions.StandardE
 import com.devjoliveira.appointmentmanagementapi.dto.AuthResponseDTO;
 import com.devjoliveira.appointmentmanagementapi.dto.LoginRequestDTO;
 
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
 
 // @formatter:off
 
@@ -66,7 +66,7 @@ public interface AuthenticationControllerDoc {
               content = @Content(schema = @Schema(implementation =  StandardError.class))
       )})
   
-      ResponseEntity<UserDTO> getUserLogged(
+      ResponseEntity<UserResponseDTO> getUserLogged(
           @Parameter(description = "Authentication object containing the logged user's details", 
           required = true)
       Authentication authentication);

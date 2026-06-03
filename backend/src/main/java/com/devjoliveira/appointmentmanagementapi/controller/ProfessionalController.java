@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devjoliveira.appointmentmanagementapi.doc.ProfessionalControllerDoc;
-import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
-import com.devjoliveira.appointmentmanagementapi.dto.UserMinDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserResponseDTO;
+import com.devjoliveira.appointmentmanagementapi.dto.UserRequestDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.UserRole;
 import com.devjoliveira.appointmentmanagementapi.service.UserService;
 
@@ -37,32 +37,32 @@ public class ProfessionalController implements ProfessionalControllerDoc {
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<UserMinDTO>> findAll() {
+  public ResponseEntity<List<UserRequestDTO>> findAll() {
     return ResponseEntity.ok().body(userService.findAllProfessionals());
   }
 
   @GetMapping
-  public ResponseEntity<Page<UserMinDTO>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<UserRequestDTO>> findAll(Pageable pageable) {
     return ResponseEntity.ok().body(userService.findAllProfessionalsPage(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/email/{email}")
-  public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
+  public ResponseEntity<UserResponseDTO> findByEmail(@PathVariable String email) {
     return ResponseEntity.ok().body(userService.findByEmail(email));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/{id}")
-  public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
+  public ResponseEntity<UserResponseDTO> findById(@PathVariable UUID id) {
     return ResponseEntity.ok().body(userService.findById(id));
   }
 
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping
-  public ResponseEntity<UserDTO> save(@RequestBody @Valid UserMinDTO request) {
+  public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO request) {
 
-    UserDTO professionalDTO = userService.save(request, UserRole.ROLE_PROFESSIONAL);
+    UserResponseDTO professionalDTO = userService.save(request, UserRole.ROLE_PROFESSIONAL);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(professionalDTO.id()).toUri();
@@ -73,7 +73,7 @@ public class ProfessionalController implements ProfessionalControllerDoc {
 
   @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/{id}")
-  public ResponseEntity<UserDTO> change(@PathVariable UUID id, @RequestBody @Valid UserMinDTO request) {
+  public ResponseEntity<UserResponseDTO> change(@PathVariable UUID id, @RequestBody @Valid UserRequestDTO request) {
     return ResponseEntity.ok().body(userService.change(id, request));
   }
 
