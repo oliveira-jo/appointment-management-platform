@@ -1,8 +1,6 @@
-# Appointment Management platform
+# Appointment Management API (Monorepo)
 
 > Status: Developing
-
-A full-stack appointment management system designed to handle scheduling, users, services, and business metrics.
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -12,58 +10,188 @@ A full-stack appointment management system designed to handle scheduling, users,
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-## Objective
-The main goal of this project is to build a scalable API and modern UI for managing appointments efficiently.
 
-## Domain
-The system is centered around appointments, with the following entities:
-- Customer
-- Professional
-- Service (Product)
-- Appointment 
-- Metrics
+This monorepo contains a Spring Boot backend API for appointment management and an Angular frontend application. The backend provides endpoints for managing users (customers and professionals), products (services), and appointments. The frontend is a lightweight Angular client that consumes the API.
+
+---
 
 ## Preview
 ![Preview](frontend/public/preview.jpg)
 
-## Monorepo Structure
-This project follows a monorepo architecture, keeping frontend and backend together:
+---
+
+## 🚀 Technologies
+
+- Backend: Java 21, Spring Boot, Spring Data JPA, H2 (test), Hibernate, Spring Security, JWT Authentication
+- Frontend: Angular 17, TypeScript,RxJS, Angular Router, Bootstrap
+- Build tools: Maven (backend), npm (frontend)
+- Testing: JUnit 5, Mockito, Spring Test (MockMvc), TestRestTemplate
+- Docker (optional containerization)
+
+---
+
+## 📋 Features
+
+- User management (customers, professionals, admins)
+- Product (service) catalog with duration and price
+- Appointment scheduling, listing, metrics and cancellation
+- Basic role-based security (JWT)
+
+---
+
+## 🏗️ Architecture
+
+This is a monorepo with two main folders:
+
+- `backend/` — Spring Boot REST API with domain, DTOs, services, repositories and controllers.
+- `frontend/` — Angular application that consumes the REST API.
+
+The backend follows a layered architecture: controller -> service -> repository -> domain.
+
 ````
-  appointment-management/
-  ├── backend/   (Spring Boot + JWT + Clean Architecture)
-  ├── frontend/  (Angular)
-  ├── docker-compose.yml
-  └── README.md
+Frontend (Angular)
+    ↓
+REST API (Spring Boot)
+    ↓
+Database
+````
+---
+
+## 📁 Project Structure
+````
+appointment-management-monorepo/
+│
+├── backend/
+│   ├── src/
+│   ├── pom.xml
+│   └── Dockerfile
+│
+├── frontend/
+│   ├── src/
+│   ├── package.json
+│   └── angular.json
+│
+├── README.md
+└── .gitignore
 ````
 
-...
+---
 
+## ⚙️ Prerequisites
 
-# BACKEND (Spring Boot)
-Architecture
-- Controllers (DTO layer)
-- Services (Business rules)
-- Repositories (Data access)
-- Models / Entities
-- Security (JWT + Spring Security)
-- Infrastructure layer
-- Scheduled Jobs
+- Java 21 (JDK)
+- Maven (bundled wrapper `mvnw` is included)
+- Node.js + npm (for frontend)
+- Docker (optional, for containerized runs)
 
-## Background Jobs
-- Automatically update appointment status
-  * CONFIRMED → COMPLETED
-- Remove old appointments (older than 6 months)
-- Send Reminder Appointment One Day Before (Twilio and Mail)
+---
 
-## Appointment Service Logic
-1. Retrieve the service duration
-2. Calculate endsAt
-3. Validate scheduling conflicts:
+## 🔧 Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/oliveira-jo/appointment-management-api.git
+cd appointment-management-api
+```
+
+2. Backend dependencies are managed with Maven. The repository contains `backend/mvnw` so you don't need a local Maven installation.
+
+3. Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+cd ..
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create an .env file or configure environment variables depending on your environment.
+
+Example:
 ````
-  novoInicio < existenteFim
-  novoFim > existenteInicio
+# JWT
+JWT_SECRET=
+
+# DATABASE
+DATABASE_URL=
+DATABASE_DB=
+DATABASE_USERNAME=
+DATABASE_PASSWORD=
+
+POSTGRES_PORT=
+POSTGRES_INTERNAL_PORT=
+
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/
+SPRING_DATASOURCE_USERNAME=
+SPRING_DATASOURCE_PASSWORD=
+
+# TWILIO Environment Variables
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_WHATSAPP_NUMBER=
+TWILIO_SMS_NUMBER=
+TWILIO_TEMPLATE_SID=
+
+# MAIL Environment Variables
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
 ````
- 4. Save appointment
+
+---
+
+## ▶️ How to run
+
+Backend (development):
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+This starts the API on the default port (configured in application.properties).
+
+Frontend (development):
+
+```bash
+cd frontend
+npm start
+```
+
+This serves the Angular app (check `frontend/package.json` for the exact script and port).
+
+---
+
+## 📡 API Endpoints
+
+The API exposes endpoints under `/appointments`, `/products`, `/users`, same examples:
+
+- GET /appointments — paginated list of appointments
+- GET /appointments/day/{dd-MM-yyyy} — list appointments by day
+- GET /appointments/professional/{id} — professional's appointments
+- POST /appointments — create new appointment 
+  (payload uses `AppointmentMinDTO` date format `dd/MM/yyyy HH:mm:ss`)
+- GET /products — list products
+- POST /products — create a product
+
+Note: Check controller sources for full route definitions and request/response DTOs.
+
+---
+
+## 📑 API Documentation
+
+Swagger/OpenAPI documentation:
+
+---
+
+## 🔐 Security
+
+The backend uses JWT-based authentication and role-based authorization. Tests use `@WithMockUser` in controller unit tests when needed. For manual testing, obtain a JWT token from the authentication endpoint.
 
 ## Authentication (JWT)
 Login Request
@@ -91,390 +219,51 @@ Using the Token
 Authorization: Bearer YOUR_TOKEN
 ````
 
-...
+---
 
+## 🧪 Tests
 
-# FRONTEND
-- Auth com JWT (backend)
-- HTTP Interceptor para token
-- Auth Guard
-- Role-based UI (ADMIN vs PROFESSIONAL)
-- Loading states
-- Error handling centralizado
-- Toast notifications
-- Reactive Forms
-- Form validation elegante
-
-## Frontend Tecnologies
-- Angular — Application framework 
-- Bootstrap — Responsive and Styles
-- AdminLTE — Admin Template with base in Bootstrap
-- jQuery — DOM Manipulate (necessary for same plugins of AdminLTE)
-- Font Awesome — Icons for interface 
-
-## Frontend Structure
-````
-src/app/
- ├── core/        (auth, interceptors, guards)
- ├── shared/      (components reutilizáveis)
- ├── features/
- │    ├── appointments/
- │    ├── customers/
- │    ├── professionals/
- │    └── products/
- └── layout/
-````
-
-## Configuração no Angular
-To ensure the correct functioning of the styles and scrypts, the following file have been added to angular.json:
-
-+ Styles
-````JSON
-"styles": [
-  "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-  "node_modules/admin-lte/dist/css/adminlte.min.css",
-  "node_modules/bootstrap/dist/css/bootstrap.min.css",
-  "src/styles.css"
-]
-````
-
-+ Scripts
-````JSON
-"scripts": [
-  "node_modules/jquery/dist/jquery.min.js",
-  "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-  "node_modules/admin-lte/dist/js/adminlte.min.js"
-]
-````
-
-## Dark Mode
-The system has dark mode support, througth the global class
-````CSS
-body.dark-mode {
-  background-color: #1e1e2f;
-  color: #f1f3f5;
-}
-````
-
-Example of component customization
-````CSS
-body.dark-mode .modal {
-  background-color: #2b3035;
-  color: #f1f3f5;
-}
-
-body.dark-mode .table {
-  background-color: #2b3035;
-  color: #f1f3f5;
-}
-````
-
-### Observações Importantes
-- The AdminLTE depend of jQuery for it's complete work
-- The plugins (how tables, modail, etc.) need the scripts loaded correctly
-- Samo componetns need manual inicialization by jQuery
-
-
-### Applied Best Practices
-- Separation of assets into src/assets
-- Use of Bootstrap for responsiveness
-- Visual standardization with AdminLTE
-- Customization via global CSS (dark mode)
-
-### Possible Future Improvements
-- Remove jQuery dependency (use pure Angular)
-- Create reusable components (cards, modals, tables)
-- Implement dynamic theming (persistent dark/light toggle)
-- Migrate to modern libraries such as:
-  * Angular Material
-  * Tailwind CSS
-
-...
-
-
-# RUNING THE PROJECT IDE
-1. Backend
-````
-  cd backend
-  ./mvnw spring-boot:run
-````
- - Backend runs on:
-````
-  http://localhost:8080
-````
-2. Frontend
-````
-  cd frontend
-  npm install
-  ng serve
-````
-
-
-...
-
-
-# DOCKER SETUP
-This project uses Docker to orchestrate the intare application, indluding:
-- PostgreSQL (Banco de dados)
-- Spring Boot (Backend)
-- Angular (Frontend)
-
-
-## Estrutura do Projeto
-```
-appointment-management-api/
-├── backend/
-│   ├── Dockerfile
-│   └── target/app.jar
-├── frontend/
-│   ├── Dockerfile
-│   └── ...
-├── docker-compose.yml
-├── .env
-```
-
-
-## Variáveis de Ambiente
-Generate a file of `.env` in root of project:
->  ATTENTION: Generate your own strong environment variables; this is just an example.
-
-```env
-POSTGRES_DB=appointment_db
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=admin123
-
-POSTGRES_PORT=5433
-POSTGRES_INTERNAL_PORT=5432
-
-SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appointment_db
-SPRING_DATASOURCE_USERNAME=admin
-SPRING_DATASOURCE_PASSWORD=admin123
-```
-
-
-## PostgreSQL (Banco de Dados)
-- Porta externa: `${POSTGRES_PORT}` (ex: 5433)
-- Porta interna: `5432`
-- Dados persistidos via volume Docker
-
-...
-
-
-## BACKEND (Spring Boot)
-
-### Dockerfile
-
-```dockerfile
-FROM eclipse-temurin:21-jdk-jammy
-
-WORKDIR /app
-
-COPY target/*.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-### Build da aplicação
-Before the container up
+Run backend unit tests (Maven):
 
 ```bash
 cd backend
-mvn clean package
+./mvnw test
 ```
 
+Integration tests (if configured with Failsafe) can be run with:
 
-...
-
-
-## FRONTEND (Angular)
-
-### Dockerfile
-
-```dockerfile
-FROM node:20-alpine AS build
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-FROM nginx:alpine
-COPY --from=build /app/dist/<nome-do-projeto> /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-> ATENTION: Substitua `<nome-do-projeto>` pelo nome correto gerado na pasta `dist`.
-
-
-## Comunicação entre serviços
-Dentro do Docker:
-
-| Serviço    | Host       |
-| ---------- | ---------- |
-| PostgreSQL | `postgres` |
-| Backend    | `backend`  |
-| Frontend   | `frontend` |
-
-
-## Configuração da API no Angular
-> ATENTION: Inside the frontend, use:
-
-```ts
-apiUrl = 'http://backend:8080';
-```
-
-# docker-compose.yml
-
-```yaml
-services:
-
-  postgres:
-    image: postgres:15
-    container_name: postgres-db
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  backend:
-    build: ./backend
-    container_name: spring-api
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-      DATABASE_URL: ${DATABASE_URL}
-      DATABASE_USERNAME: ${DATABASE_USERNAME}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_INTERNAL_PORT: ${POSTGRES_INTERNAL_PORT}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      MAIL_HOST: ${MAIL_HOST}
-      MAIL_PORT: ${MAIL_PORT}
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
-
-  frontend:
-    build: ./frontend
-    container_name: angular-app
-    restart: always
-    ports:
-      - "4200:80"
-    depends_on:
-      - backend
-
-volumes:
-  postgres_data:
-```
-
-
-## Configurate environment
-
-- Backend: application.properties: 
-````
-spring.profiles.active=docker
-````
-
-- Frontend: environments.prod.ts
-- if using a localhosts
-````ts
-export const environment = {
-  production: true,
-  apiUrl: 'http://localhost:8080/api/v1'
-};
-````
-
-- if using a your-domain-server
-````ts
-export const environment = {
-  production: true,
-  apiUrl: 'http://your-domain-server:8080/api/v1'
-};
-````
-
-
-...
-
-
-# HOW TO EXECUTE THE PROJECT
-## 1. Build do backend
 ```bash
 cd backend
-mvn clean package
-cd ..
+./mvnw verify
 ```
 
-## 2. BRING UP THE CONTAINERS
+Frontend tests:
+
 ```bash
-docker compose up --build -d
+cd frontend
+npm test
 ```
 
-## 3. ACCESS THE SERVICES
-* Frontend: http://localhost:4200
-* Backend: http://localhost:8080
-* PostgreSQL: localhost:${POSTGRES_PORT}
+Notes:
+- Some controller tests expect specific date formats. For `AppointmentMinDTO`, the `scheduledAt` field expects `dd/MM/yyyy HH:mm:ss` due to `@JsonFormat` on the DTO.
+- If tests load the Spring context, ensure your test profile (`application-test.properties`) has appropriate in-memory DB or test settings.
 
-# USEFUL COMMANDS
-## View running containers
+---
+
+## 🐳 Docker
+
+If Docker files are provided (check repo), you can build and run images. Example pattern:
+
 ```bash
-docker ps
+# Build backend image (if Dockerfile exists)
+cd backend
+docker build -t appointment-management-api-backend .
+
+# Run backend
+docker run -p 8080:8080 appointment-management-api-backend
 ```
 
-## Stop containers
-```bash
-docker compose down
-```
+## 👨‍💻 Author
 
-## See logs
-```bash
-docker compose logs -f
-```
-
-# Commun Problens
-##  *Erro* of database conection
-
-* Check if the backend is using:
-  ```
-  postgres:5432
-  ```
-
-##  *Erro*  Java Version
-
-* Make sure to use Java 21 in the Dockerfile
-
-## *Variables* `.env` not loagind
-
-* The file `.env` must to be in the project root
-
-## *CORS* in backend
-
-* Configure CORS in Spring Boot
-
-
-## Future Improvements
-_ Add pgAdmin
-_ Configure Nginx as a gateway
-_ Implement Flyway/Liquibase
-_ Create profiles (dev/prod)
-_ Deploy to the cloud (AWS, Railway, VPS)
-
-
-## Final Result
-Complete environment with:
-- Persistent database
-- Containerized backend
-- Frontend served via Nginx
-- Internal communication via Docker network
-
-
-
-
+Name: Jonathan Oliveira 
+Contact: devjoliveira@gmail.com
